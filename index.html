@@ -110,7 +110,21 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .res-extra{max-width:640px;margin:40px auto 0;text-align:center;padding:16px 22px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--mute);font-size:15px}
 .res-extra b{color:var(--gold)}
 /* reviews */
-.rev .card{display:flex;flex-direction:column;gap:14px}
+.circles{display:flex;justify-content:center;flex-wrap:wrap;gap:40px 56px;margin-top:44px}
+.vc{margin:0;text-align:center;width:240px}
+.ring{--p:0;position:relative;display:block;width:240px;height:240px;border:0;padding:6px;border-radius:50%;cursor:pointer;color:var(--gold);background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0);box-shadow:0 0 0 1px rgba(45,212,191,.25),0 0 34px rgba(45,212,191,.2);transition:transform .25s,box-shadow .25s}
+.ring:hover{transform:scale(1.03);box-shadow:0 0 0 1px rgba(45,212,191,.5),0 0 44px rgba(45,212,191,.35)}
+.ring video{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;background:radial-gradient(circle at 35% 30%,#1b4a5c,#0b2530)}
+.ring .ph,.ring .pl{position:absolute;inset:6px;border-radius:50%;display:grid;place-items:center;align-content:center;gap:6px}
+.ring .ph em{font-style:normal;font-size:13px;color:var(--mute)}
+.ring .pl{background:rgba(7,22,28,.35);opacity:0;transition:opacity .2s}
+.ring.has .ph{display:none}
+.ring.has:not(.on) .pl{opacity:1}
+.ring.on .pl{display:none}
+.vc figcaption{margin-top:18px}
+.vc figcaption b{display:block;font-size:17px}
+.vc figcaption small{color:var(--mute);font-size:14px}
+
 .stars{color:var(--gold);letter-spacing:2px}
 .who{display:flex;gap:12px;align-items:center;margin-top:auto}
 .av{width:42px;height:42px;border-radius:50%;background:var(--line);display:grid;place-items:center;font-weight:700}
@@ -161,7 +175,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 
 footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
 
-@media(max-width:520px){.steps{grid-template-columns:1fr}.st{border-left:0!important;padding-left:0!important}}
+@media(max-width:520px){.circles{gap:28px 20px}.vc,.ring{width:150px}.ring{height:150px}.steps{grid-template-columns:1fr}.st{border-left:0!important;padding-left:0!important}}
 @media(max-width:800px){
   section{padding:52px 0}
   .hero .grid,.about,.guar{grid-template-columns:1fr}
@@ -314,22 +328,31 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
       <span class="neon">Otzivlar</span>
       <h2>O'quvchilar <span class="grad">fikri</span></h2>
     </div>
-    <div class="cols">
-      <div class="card">
-        <div class="stars">★★★★★</div>
-        <p>"[Haqiqiy otziv. Masalan: KT tahlili qismi operatsiyadan oldingi tayyorgarligimni o'zgartirdi, endi anatomik variantlarni oldindan ko'raman.]"</p>
-        <div class="who"><div class="av">A</div><div><b>Dr. Ali V.</b><small>LOR-ordinator, Toshkent</small></div></div>
-      </div>
-      <div class="card">
-        <div class="stars">★★★★★</div>
-        <p>"[Haqiqiy otziv. Masalan: operatsiya videolari va izohlar juda aniq, orientirlarni topish osonlashdi.]"</p>
-        <div class="who"><div class="av">M</div><div><b>Dr. Madina K.</b><small>LOR-shifokor, Samarqand</small></div></div>
-      </div>
-      <div class="card">
-        <div class="stars">★★★★★</div>
-        <p>"[Haqiqiy otziv. Masalan: asoratlar bo'limi eng foydali bo'ldi, endi jarrohlikka ishonch bilan yondashaman.]"</p>
-        <div class="who"><div class="av">J</div><div><b>Dr. Jasur R.</b><small>LOR-shifokor, Andijon</small></div></div>
-      </div>
+    <div class="circles">
+      <figure class="vc">
+        <button class="ring" type="button" aria-label="Dr. Ali V. otzivini ijro etish">
+          <video data-src="" playsinline preload="metadata" poster=""></video>
+          <span class="ph"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><em>Otziv 1</em></span>
+          <span class="pl"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <figcaption><b>Dr. Ali V.</b><small>LOR-ordinator, Toshkent</small></figcaption>
+      </figure>
+      <figure class="vc">
+        <button class="ring" type="button" aria-label="Dr. Madina K. otzivini ijro etish">
+          <video data-src="" playsinline preload="metadata" poster=""></video>
+          <span class="ph"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><em>Otziv 2</em></span>
+          <span class="pl"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <figcaption><b>Dr. Madina K.</b><small>LOR-shifokor, Samarqand</small></figcaption>
+      </figure>
+      <figure class="vc">
+        <button class="ring" type="button" aria-label="Dr. Jasur R. otzivini ijro etish">
+          <video data-src="" playsinline preload="metadata" poster=""></video>
+          <span class="ph"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><em>Otziv 3</em></span>
+          <span class="pl"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <figcaption><b>Dr. Jasur R.</b><small>LOR-shifokor, Andijon</small></figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -444,6 +467,22 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
     document.getElementById('s').textContent=p(s%60);
   }
   tick();setInterval(tick,1000);
+})();
+
+// Doira video otzivlar (Telegram "kruzhok" uslubi)
+(function(){
+  var rings=[].slice.call(document.querySelectorAll('.ring'));
+  rings.forEach(function(r){
+    var v=r.querySelector('video'),src=v.getAttribute('data-src');
+    if(!src)return;
+    v.src=src;r.classList.add('has');
+    v.addEventListener('timeupdate',function(){r.style.setProperty('--p',v.duration?v.currentTime/v.duration*100:0)});
+    v.addEventListener('ended',function(){r.classList.remove('on');r.style.setProperty('--p',0);v.currentTime=0});
+    r.addEventListener('click',function(){
+      if(v.paused){rings.forEach(function(o){var ov=o.querySelector('video');if(ov!==v&&!ov.paused){ov.pause();o.classList.remove('on')}});v.play();r.classList.add('on')}
+      else{v.pause();r.classList.remove('on')}
+    });
+  });
 })();
 </script>
 </body>
