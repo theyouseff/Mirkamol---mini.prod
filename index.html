@@ -565,7 +565,7 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
         <label class="mo-f"><span>Ismingiz</span><input name="name" type="text" placeholder="Ismingizni kiriting" autocomplete="name" required></label>
         <label class="mo-f"><span>Telefon raqamingiz</span><div class="mo-ph"><em>🇺🇿 +998</em><input name="phone" type="tel" inputmode="numeric" placeholder="00-000-0000" autocomplete="tel-national" required></div></label>
         <p class="mo-err" id="mo-err" role="alert"></p>
-        <button class="mo-go" type="submit"><span id="mo-go">Kursni olish</span></button>
+        <button class="mo-go" type="submit"><span id="mo-go">Telegramdan chekni yuborish</span></button>
       </form>
       <div class="mo-ok" id="mo-ok" hidden>
         <div class="mo-ok-ic">✓</div>
@@ -714,7 +714,7 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
       var fd=new FormData(form);fd.set('phone','+998'+digits);
       fetch(CFG.endpoint,{method:'POST',body:fd}).then(function(r){if(!r.ok)throw 0;success("Chekingiz tekshiriladi, tez orada siz bilan bog'lanamiz.")})
         .catch(function(){err.textContent="Yuborib bo'lmadi. Qayta urinib ko'ring.";})
-        .then(function(){go.textContent='Kursni olish';form.querySelector('.mo-go').disabled=false});
+        .then(function(){go.textContent='Telegramdan chekni yuborish';form.querySelector('.mo-go').disabled=false});
     }else{
       var msg="Assalomu alaykum! Kursga yozilmoqchiman.\nIsmim: "+name+"\nTelefon: +998"+digits+"\nTo'lov chekini shu yerga yuboraman.";
       window.open('https://t.me/'+CFG.telegram+'?text='+encodeURIComponent(msg),'_blank','noopener');
