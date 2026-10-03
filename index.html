@@ -201,6 +201,12 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .deal:hover{transform:translateY(-3px);border-color:rgba(45,212,191,.95);box-shadow:0 0 0 1px rgba(45,212,191,.45),0 0 34px rgba(45,212,191,.55),0 0 90px rgba(45,212,191,.3),0 14px 40px rgba(0,0,0,.55)}
 .deal:hover .deal-time{border-color:rgba(45,212,191,.9);background:rgba(45,212,191,.16);box-shadow:0 0 22px rgba(45,212,191,.45),inset 0 0 18px rgba(45,212,191,.2);text-shadow:0 0 14px rgba(45,212,191,.8)}
 .deal:hover .deal-ic{border-color:rgba(45,212,191,.95);background:rgba(45,212,191,.2);box-shadow:0 0 16px rgba(45,212,191,.55)}
+.offer-txt{margin:18px auto 0;font-size:19px;color:var(--text)}
+.offer-txt b{color:var(--gold)}
+.pr{display:flex;align-items:baseline;justify-content:center;flex-wrap:wrap;gap:12px 34px;margin-top:38px}
+.pr s{font-size:clamp(34px,6vw,60px);font-weight:700;color:var(--mute);text-decoration-thickness:4px;text-decoration-color:var(--red)}
+.pr b{font-size:clamp(46px,9vw,92px);font-weight:800;line-height:1;color:var(--gold);text-shadow:0 0 40px rgba(45,212,191,.35)}
+.pr b i{font-style:normal;font-size:.38em;font-weight:700;color:var(--mute);text-shadow:none}
 /* ps */
 .ps{max-width:720px;margin:0 auto;font-size:18px;color:var(--mute)}
 .ps b{color:var(--text)}
@@ -438,14 +444,14 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
 
 <!-- 8. NARX -->
 <section class="alt" id="narx">
-  <div class="wrap">
-    <div class="price">
-      <span class="tag">🔥 Maxsus chegirma</span>
-      <div class="old">498 000 so'm</div>
-      <div class="now">197 000</div>
-      <p>so'm · bir martalik to'lov, obunasiz</p>
-      <a class="btn" style="width:100%" href="https://t.me/USERNAME">Kursga yozilish →<small>7 kunlik pulni qaytarish kafolati bilan</small></a>
+  <div class="wrap center">
+    <h2>Hamma ham bunaqa narxga kurs <span class="grad">ola olmaydi...</span></h2>
+    <p class="sub offer-txt">Lekin men siz uchun maxsus, yuqorida qayd etilgan hamma narsani o'z ichiga olgan kursni <b>97% chegirmada</b> bermoqchiman!</p>
+    <div class="pr">
+      <s>498 000</s>
+      <b>197 000 <i>so'm</i></b>
     </div>
+    <div class="cta-row" style="margin-top:34px"><a class="btn" href="https://t.me/USERNAME">Kursga yozilish →<small>7 kunlik pulni qaytarish kafolati bilan</small></a></div>
   </div>
 </section>
 
