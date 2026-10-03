@@ -253,6 +253,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .mo-ph em{font-style:normal;color:var(--text);white-space:nowrap}
 .mo-ph input{height:auto;border:0;background:transparent;padding:0;box-shadow:none!important;flex:1;min-width:0}
 .mo-err{min-height:20px;margin:6px 0 4px;color:#ff7b7b;font-size:14px}
+.mo-f.bad input,.mo-f.bad .mo-ph{border-color:#ff6b6b;box-shadow:0 0 0 3px rgba(255,107,107,.16)}
 .mo-go{width:100%;height:56px;border:0;border-radius:16px;background:linear-gradient(90deg,#17b5a6,#3a9bff);color:#03201c;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 8px 26px rgba(45,212,191,.3);transition:transform .15s,box-shadow .15s}
 .mo-go:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(45,212,191,.5)}
 .mo-go:disabled{opacity:.6;cursor:wait;transform:none}
@@ -701,16 +702,72 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,done);
     else{var x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy')}catch(e){}x.remove();done()}
   });
-  var ph=form.querySelector('input[name=phone]');
+  // ---- Ism va telefon tekshiruvi ----
+  // O'zbekiston operator / hudud kodlari (+998 dan keyingi dastlabki 2 raqam). Kerak bo'lsa shu yerda o'zgartiring.
+  var CODES={mobil:['20','33','50','55','77','88','90','91','93','94','95','97','98','99'],
+             shahar:['61','62','65','66','67','69','70','71','72','73','74','75','76','78','79']};
+  var ALLOWED=CODES.mobil.concat(CODES.shahar);
+  var nm=form.querySelector('input[name=name]'),ph=form.querySelector('input[name=phone]');
+  function mark(el,bad){el.classList.toggle('bad',!!bad);var w=el.closest('.mo-f');if(w)w.classList.toggle('bad',!!bad);el.setAttribute('aria-invalid',bad?'true':'false')}
+  var VOW_L='aeiou',VOW_C='аеёиоуыэюяўэ',BAD2=['df','fd','fg','gf','fh','hf','fj','jf','fk','kf','hj','xz','zx','qw','wq','vb','bv','cv','vc'];
+  var ROWS=['qwertyuiop','asdfghjkl','zxcvbnm'];
+  function badWord(w){
+    var l=w.toLowerCase().replace(/[’ʻʼ`]/g,"'"),letters=l.replace(/['\-]/g,'');
+    if(letters.length<2)return true;
+    var cyr=/[а-яёўқғҳ]/.test(letters);
+    if(!(cyr?letters.split('').some(function(c){return VOW_C.indexOf(c)>-1}):letters.split('').some(function(c){return VOW_L.indexOf(c)>-1})))return true; // unli yo'q
+    if(/(.)\1\1/.test(letters))return true;                          // bir harf 3 marta ketma-ket
+    if(!cyr){
+      var t=l.replace(/sh|ch|ng/g,'x').replace(/g'|o'/g,'a');       // sh, ch, ng bitta undosh; o', g' unli deb olinadi
+      if(/[^aeiou'\-]{4,}/.test(t.replace(/x/g,'b')))return true;     // 4 ta ketma-ket undosh
+      for(var i=0;i<BAD2.length;i++)if(l.indexOf(BAD2[i])>-1)return true; // klaviatura "bosib tashlash"
+      for(var r=0;r<ROWS.length;r++){var row=ROWS[r],rev=row.split('').reverse().join('');
+        for(var k=0;k+4<=row.length;k++){var q=row.substr(k,4),p=rev.substr(k,4);if(letters.indexOf(q)>-1||letters.indexOf(p)>-1)return true}}
+    }
+    return false;
+  }
+  function checkName(){
+    var v=nm.value.replace(/\s+/g,' ').trim();
+    if(!v)return "Ismingizni kiriting";
+    if(!/^[A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ’ʻʼ'`\- ]+$/.test(v))return "Ismda faqat harflar bo'lishi kerak (raqam va belgilar mumkin emas)";
+    var words=v.split(' ');
+    if(words.length>4||v.length>40)return "Ismingiz juda uzun";
+    for(var i=0;i<words.length;i++)if(badWord(words[i]))return "Iltimos, ismingizni to'g'ri yozing (masalan: Alisher yoki Madina)";
+    return '';
+  }
+  function checkPhone(){
+    var d=ph.value.replace(/\D/g,'');
+    if(!d)return "Telefon raqamingizni kiriting";
+    if(d.length<2||ALLOWED.indexOf(d.slice(0,2))<0)return "Operator kodi noto'g'ri. Masalan: 90, 91, 93, 94, 97, 98, 99, 33, 88, 77, 71";
+    if(d.length!==9)return "Telefon raqamni to'liq kiriting (9 ta raqam)";
+    var rest=d.slice(2);
+    if(/^(\d)\1{6}$/.test(rest)||rest==='1234567'||rest==='7654321'||rest==='0123456')return "Telefon raqam noto'g'ri ko'rinadi, qayta tekshiring";
+    return '';
+  }
+  function titleCase(s){return s.replace(/\s+/g,' ').trim().toLowerCase().replace(/(^|[\s\-])(\S)/g,function(m,a,b){return a+b.toUpperCase()})}
+  nm.addEventListener('input',function(){
+    var v=nm.value.replace(/[^A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ’ʻʼ'`\- ]/g,'').replace(/\s{2,}/g,' ');
+    if(v!==nm.value)nm.value=v;mark(nm,false);err.textContent='';
+  });
+  nm.addEventListener('blur',function(){
+    if(!nm.value.trim())return;nm.value=titleCase(nm.value);
+    var m=checkName();mark(nm,m);err.textContent=m;
+  });
   ph.addEventListener('input',function(){
     var d=ph.value.replace(/\D/g,'').slice(0,9),o=d.slice(0,2);
-    if(d.length>2)o+='-'+d.slice(2,5);if(d.length>5)o+='-'+d.slice(5);ph.value=o;
+    if(d.length>2)o+='-'+d.slice(2,5);if(d.length>5)o+='-'+d.slice(5);ph.value=o;mark(ph,false);err.textContent='';
+  });
+  ph.addEventListener('blur',function(){
+    if(!ph.value)return;var m=checkPhone();mark(ph,m);err.textContent=m;
   });
   form.addEventListener('submit',function(e){
     e.preventDefault();err.textContent='';
-    var name=form.name.value.trim(),digits=ph.value.replace(/\D/g,'');
-    if(name.length<2){err.textContent='Ismingizni kiriting';return}
-    if(digits.length!==9){err.textContent="Telefon raqamni to'liq kiriting";return}
+    nm.value=titleCase(nm.value);
+    var mn=checkName(),mp=checkPhone();
+    mark(nm,mn);mark(ph,mp);
+    if(mn){err.textContent=mn;nm.focus();return}
+    if(mp){err.textContent=mp;ph.focus();return}
+    var name=nm.value,digits=ph.value.replace(/\D/g,'');
     function success(msg){form.hidden=true;document.getElementById('mo-ok-p').textContent=msg;ok.hidden=false}
     if(CFG.endpoint){
       go.textContent='Yuborilmoqda...';form.querySelector('.mo-go').disabled=true;
