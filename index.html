@@ -114,9 +114,6 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .gal{position:relative;margin-top:44px}
 .circles{display:flex;gap:36px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:24px max(20px,calc(50vw - 520px)) 12px;margin:0 calc(50% - 50vw);overscroll-behavior-x:contain}
 .circles::-webkit-scrollbar{display:none}
-.gnav{position:absolute;top:calc(50% - 40px);z-index:5;width:52px;height:52px;border-radius:50%;border:1px solid rgba(45,212,191,.5);background:rgba(7,22,28,.85);backdrop-filter:blur(6px);color:var(--gold);font-size:24px;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 22px rgba(45,212,191,.25);transition:transform .2s,background .2s}
-.gnav:hover{transform:scale(1.08);background:rgba(16,43,54,.95)}
-.gnav.prev{left:max(8px,calc(50% - 50vw + 12px))}.gnav.next{right:max(8px,calc(50% - 50vw + 12px))}
 .gcount{text-align:center;margin-top:10px;color:var(--mute);font-size:14px}
 .vc{margin:0;text-align:center;flex:0 0 auto;width:340px;scroll-snap-align:center}
 .ring{--p:0;position:relative;display:block;width:340px;height:340px;border:0;padding:6px;border-radius:50%;cursor:pointer;color:var(--gold);background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0);box-shadow:0 0 0 1px rgba(45,212,191,.25),0 0 34px rgba(45,212,191,.2);transition:transform .25s,box-shadow .25s}
@@ -187,7 +184,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 
 footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
 
-@media(max-width:520px){.vc,.ring{width:260px}.ring{height:260px}.circles{gap:22px}.gnav{display:none}.steps{grid-template-columns:1fr}.st{border-left:0!important;padding-left:0!important}}
+@media(max-width:520px){.vc,.ring{width:260px}.ring{height:260px}.circles{gap:22px}.steps{grid-template-columns:1fr}.st{border-left:0!important;padding-left:0!important}}
 @media(max-width:800px){
   section{padding:52px 0}
   .hero .grid,.about,.guar{grid-template-columns:1fr}
@@ -341,8 +338,6 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
       <h2>O'quvchilar <span class="grad">fikri</span></h2>
     </div>
     <div class="gal">
-    <button class="gnav prev" type="button" aria-label="Oldingi otziv">‹</button>
-    <button class="gnav next" type="button" aria-label="Keyingi otziv">›</button>
     <div class="circles">
       <figure class="vc">
         <div class="ring embed">
@@ -534,13 +529,9 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
   });
 })();
 
-// Otzivlar galereyasi: strelkalar va sensorli qurilmada "bosib faollashtirish"
+// Otzivlar galereyasi: sensorli qurilmada "bosib faollashtirish"
 (function(){
   var sc=document.querySelector('.circles');if(!sc)return;
-  var step=function(){var v=sc.querySelector('.vc');return v?v.getBoundingClientRect().width+36:360};
-  var p=document.querySelector('.gnav.prev'),n=document.querySelector('.gnav.next');
-  if(p)p.addEventListener('click',function(){sc.scrollBy({left:-step(),behavior:'smooth'})});
-  if(n)n.addEventListener('click',function(){sc.scrollBy({left:step(),behavior:'smooth'})});
   var embeds=[].slice.call(sc.querySelectorAll('.ring.embed'));
   embeds.forEach(function(r){
     var sh=r.querySelector('.shield');if(!sh)return;
