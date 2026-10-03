@@ -221,6 +221,52 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .pr s{font-size:clamp(34px,6vw,60px);font-weight:700;color:var(--mute);text-decoration-thickness:4px;text-decoration-color:var(--red)}
 .pr b{font-size:clamp(46px,9vw,92px);font-weight:800;line-height:1;color:var(--gold);text-shadow:0 0 40px rgba(45,212,191,.35)}
 .pr b i{font-style:normal;font-size:.38em;font-weight:700;color:var(--mute);text-shadow:none}
+/* modal */
+.mo[hidden]{display:none}
+.mo{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;overflow-y:auto}
+.mo-bg{position:fixed;inset:0;background:rgba(2,8,12,.78);backdrop-filter:blur(6px);animation:moF .25s ease}
+.mo-box{position:relative;width:min(1000px,100%);margin:auto;padding:34px 34px 38px;border-radius:30px;background:#0b1d26;border:1px solid rgba(45,212,191,.4);box-shadow:0 0 0 1px rgba(45,212,191,.12),0 30px 90px rgba(0,0,0,.6),0 0 60px rgba(45,212,191,.15);animation:moU .3s ease}
+@keyframes moF{from{opacity:0}to{opacity:1}}@keyframes moU{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+.mo-x{position:absolute;top:14px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--mute);font-size:24px;line-height:1;cursor:pointer}
+.mo-x:hover{color:#fff;border-color:var(--gold)}
+.mo-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin:6px 46px 26px 0}
+.mo-head h2{font-size:clamp(24px,3.6vw,36px);margin:0}
+.mo-time{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mute)}
+.mo-time b{padding:8px 16px;border-radius:12px;background:rgba(255,93,93,.1);border:1px solid rgba(255,93,93,.5);color:#ff7b7b;font-size:22px;font-variant-numeric:tabular-nums}
+.mo-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:22px}
+.mo-left{display:grid;gap:14px;align-content:start}
+.mo-step{padding:20px 22px;border-radius:22px;background:#0a1a22;border:1px solid var(--line);color:var(--text);font-size:16px}
+.mo-step p{margin:0 0 14px;line-height:1.6}
+.mo-sum{color:var(--green)}
+.mo-card{padding:20px 22px;border-radius:18px;background:linear-gradient(135deg,#0f8fb3,#17b5a6);color:#fff;box-shadow:0 10px 30px rgba(23,181,166,.3)}
+.mo-num{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:clamp(20px,3.2vw,28px);font-weight:800;letter-spacing:.03em;font-variant-numeric:tabular-nums}
+.mo-copy{padding:9px 16px;border:0;border-radius:10px;background:#04141b;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+.mo-copy:hover{background:#000}
+.mo-copy.ok{background:#0b3a2a;color:#7dffb8}
+.mo-holder{margin-top:12px;font-size:18px;font-weight:700}
+.mo-form,.mo-ok{padding:22px;border-radius:22px;background:#0a1a22;border:1px solid var(--line)}
+.mo-f{display:block;margin-bottom:16px}
+.mo-f>span{display:block;margin-bottom:6px;font-size:13px;color:var(--mute)}
+.mo-f input,.mo-ph{width:100%;height:52px;border-radius:14px;border:1.5px solid var(--line);background:#071218;color:var(--text);font:inherit;font-size:16px;padding:0 16px;outline:none;transition:border-color .2s,box-shadow .2s}
+.mo-f input:focus,.mo-ph:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(45,212,191,.18)}
+.mo-ph{display:flex;align-items:center;gap:10px;padding:0 16px}
+.mo-ph em{font-style:normal;color:var(--text);white-space:nowrap}
+.mo-ph input{height:auto;border:0;background:transparent;padding:0;box-shadow:none!important;flex:1;min-width:0}
+.mo-s4{margin:6px 0 10px;color:var(--text);font-size:15px}
+.mo-file{display:inline-block;cursor:pointer;margin-bottom:6px}
+.mo-file input{position:absolute;opacity:0;width:0;height:0}
+.mo-file span{display:inline-block;max-width:100%;padding:11px 22px;border-radius:99px;background:linear-gradient(90deg,#0f8fb3,#17b5a6);color:#fff;font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:top}
+.mo-err{min-height:20px;margin:6px 0 4px;color:#ff7b7b;font-size:14px}
+.mo-go{width:100%;height:56px;border:0;border-radius:16px;background:linear-gradient(90deg,#17b5a6,#3a9bff);color:#03201c;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 8px 26px rgba(45,212,191,.3);transition:transform .15s,box-shadow .15s}
+.mo-go:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(45,212,191,.5)}
+.mo-go:disabled{opacity:.6;cursor:wait;transform:none}
+.mo-ok{grid-column:1/-1;text-align:center;padding:44px 22px}
+.mo-ok-ic{width:70px;height:70px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;font-size:34px;color:var(--green);border:2px solid var(--green);box-shadow:0 0 24px rgba(61,220,151,.4)}
+.mo-ok p{color:var(--mute);margin:8px auto 24px;max-width:480px}
+.mo-ok .mo-go{max-width:260px}
+.mo-ok[hidden]{display:none}
+body.mo-open{overflow:hidden}
+@media(max-width:800px){.mo-grid{grid-template-columns:1fr}.mo-box{padding:24px 18px 28px;border-radius:24px}.mo-head{margin-right:40px}}
 /* ps */
 .ps{max-width:720px;margin:0 auto;font-size:18px;color:var(--mute)}
 .ps b{color:var(--text)}
@@ -500,6 +546,43 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
 </section>
 
 
+<div class="mo" id="mo" hidden>
+  <div class="mo-bg" data-close></div>
+  <div class="mo-box" role="dialog" aria-modal="true" aria-labelledby="mo-h">
+    <button class="mo-x" type="button" data-close aria-label="Yopish">&times;</button>
+    <div class="mo-head">
+      <h2 id="mo-h">Ro'yxatdan o'tish tartibi:</h2>
+      <div class="mo-time"><span>Ro'yxatdan o'tish uchun qolgan vaqt:</span><b id="mo-t">15:00</b></div>
+    </div>
+    <div class="mo-grid">
+      <div class="mo-left">
+        <div class="mo-step"><p>1) Quyidagi karta raqamiga ushbu to'lovni amalga oshirasiz: <b class="mo-sum" data-cfg="amount"></b></p>
+          <div class="mo-card">
+            <div class="mo-num"><span data-cfg="card"></span><button type="button" class="mo-copy" id="mo-copy">Nusxalash</button></div>
+            <div class="mo-holder" data-cfg="holder"></div>
+          </div>
+        </div>
+        <div class="mo-step mo-s2">2) To'lovingiz chekini rasmga olasiz</div>
+        <div class="mo-step mo-s2">3) Va ushbu formani to'ldirasiz</div>
+      </div>
+      <form class="mo-form" id="mo-form" novalidate>
+        <label class="mo-f"><span>Ismingiz</span><input name="name" type="text" placeholder="Ismingizni kiriting" autocomplete="name" required></label>
+        <label class="mo-f"><span>Telefon raqamingiz</span><div class="mo-ph"><em>🇺🇿 +998</em><input name="phone" type="tel" inputmode="numeric" placeholder="00-000-0000" autocomplete="tel-national" required></div></label>
+        <p class="mo-s4">4) To'lov chekini pastdagi tugmani bosib yuklang:</p>
+        <label class="mo-file"><input type="file" name="receipt" accept="image/*,.pdf"><span id="mo-fn">Chekni yuklash</span></label>
+        <p class="mo-err" id="mo-err" role="alert"></p>
+        <button class="mo-go" type="submit"><span id="mo-go">Kursni olish</span></button>
+      </form>
+      <div class="mo-ok" id="mo-ok" hidden>
+        <div class="mo-ok-ic">✓</div>
+        <h3>Rahmat! So'rovingiz qabul qilindi</h3>
+        <p id="mo-ok-p">Tez orada siz bilan bog'lanamiz.</p>
+        <button type="button" class="mo-go" data-close><span>Yopish</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <aside class="deal" aria-live="off">
   <div class="deal-top">
     <span class="deal-ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
@@ -578,6 +661,74 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
       players.forEach(function(o,j){if(o&&j!==i){try{o.pause()}catch(e){}}});
       try{p.play()}catch(e){}
     });
+  });
+})();
+
+// Ro'yxatdan o'tish oynasi (barcha "Kursga yozilish" tugmalari ochadi)
+(function(){
+  // === SOZLAMALAR: shu yerda o'zgartiring ===
+  var CFG={
+    card:'0000 0000 0000 0000',          // karta raqami
+    holder:'[Karta egasining ismi]',     // karta egasi
+    amount:"197 000 so'm",               // to'lov summasi
+    endpoint:'',                         // forma yuboriladigan manzil (bo'sh bo'lsa Telegram orqali)
+    telegram:'USERNAME'                  // Telegram username (@siz)
+  };
+  var mo=document.getElementById('mo');if(!mo)return;
+  [].forEach.call(mo.querySelectorAll('[data-cfg]'),function(e){e.textContent=CFG[e.getAttribute('data-cfg')]});
+  var form=document.getElementById('mo-form'),ok=document.getElementById('mo-ok'),grid=mo.querySelector('.mo-grid'),
+      tEl=document.getElementById('mo-t'),err=document.getElementById('mo-err'),fn=document.getElementById('mo-fn'),
+      go=document.getElementById('mo-go'),copy=document.getElementById('mo-copy'),timer,left,last;
+  function fmt(n){return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
+  function open(e){
+    last=document.activeElement;
+    mo.hidden=false;document.body.classList.add('mo-open');
+    form.hidden=false;mo.querySelector('.mo-left').hidden=false;ok.hidden=true;err.textContent='';
+    left=15*60;tEl.textContent=fmt(left);clearInterval(timer);
+    timer=setInterval(function(){left=Math.max(0,left-1);tEl.textContent=fmt(left)},1000);
+    setTimeout(function(){var i=form.querySelector('input[name=name]');i&&i.focus()},60);
+  }
+  function close(){
+    mo.hidden=true;document.body.classList.remove('mo-open');clearInterval(timer);
+    if(last&&last.focus)try{last.focus()}catch(e){}
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a.btn,a.mini');
+    if(a){e.preventDefault();open();return}
+    if(e.target.closest&&e.target.closest('[data-close]'))close();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!mo.hidden)close()});
+  copy.addEventListener('click',function(){
+    var t=CFG.card.replace(/\s/g,'');
+    function done(){copy.textContent='Nusxalandi ✓';copy.classList.add('ok');setTimeout(function(){copy.textContent='Nusxalash';copy.classList.remove('ok')},1800)}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,done);
+    else{var x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy')}catch(e){}x.remove();done()}
+  });
+  var ph=form.querySelector('input[name=phone]');
+  ph.addEventListener('input',function(){
+    var d=ph.value.replace(/\D/g,'').slice(0,9),o=d.slice(0,2);
+    if(d.length>2)o+='-'+d.slice(2,5);if(d.length>5)o+='-'+d.slice(5);ph.value=o;
+  });
+  var file=form.querySelector('input[type=file]');
+  file.addEventListener('change',function(){fn.textContent=file.files[0]?file.files[0].name:'Chekni yuklash'});
+  form.addEventListener('submit',function(e){
+    e.preventDefault();err.textContent='';
+    var name=form.name.value.trim(),digits=ph.value.replace(/\D/g,'');
+    if(name.length<2){err.textContent='Ismingizni kiriting';return}
+    if(digits.length!==9){err.textContent="Telefon raqamni to'liq kiriting";return}
+    if(!file.files[0]){err.textContent='To\'lov chekini yuklang';return}
+    function success(msg){form.hidden=true;mo.querySelector('.mo-left').hidden=true;document.getElementById('mo-ok-p').textContent=msg;ok.hidden=false}
+    if(CFG.endpoint){
+      go.textContent='Yuborilmoqda...';form.querySelector('.mo-go').disabled=true;
+      var fd=new FormData(form);fd.set('phone','+998'+digits);
+      fetch(CFG.endpoint,{method:'POST',body:fd}).then(function(r){if(!r.ok)throw 0;success("Chekingiz tekshiriladi, tez orada siz bilan bog'lanamiz.")})
+        .catch(function(){err.textContent="Yuborib bo'lmadi. Qayta urinib ko'ring.";})
+        .then(function(){go.textContent='Kursni olish';form.querySelector('.mo-go').disabled=false});
+    }else{
+      var msg="Assalomu alaykum! Kursga yozilmoqchiman.\nIsmim: "+name+"\nTelefon: +998"+digits+"\nTo'lov chekini shu yerga yuboraman.";
+      window.open('https://t.me/'+CFG.telegram+'?text='+encodeURIComponent(msg),'_blank','noopener');
+      success("Telegram ochiladi. U yerda to'lov chekini yuboring, shundan so'ng kursga kirishingiz ochiladi.");
+    }
   });
 })();
 </script>
