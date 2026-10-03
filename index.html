@@ -114,6 +114,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .vc{margin:0;text-align:center;width:240px}
 .ring{--p:0;position:relative;display:block;width:240px;height:240px;border:0;padding:6px;border-radius:50%;cursor:pointer;color:var(--gold);background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0);box-shadow:0 0 0 1px rgba(45,212,191,.25),0 0 34px rgba(45,212,191,.2);transition:transform .25s,box-shadow .25s}
 .ring:hover{transform:scale(1.03);box-shadow:0 0 0 1px rgba(45,212,191,.5),0 0 44px rgba(45,212,191,.35)}
+.ring.embed{cursor:default}
+.ring.embed:hover{transform:none}
+.ring iframe{display:block;width:100%;height:100%;border:0;border-radius:50%;background:#000}
 .ring video{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;background:radial-gradient(circle at 35% 30%,#1b4a5c,#0b2530)}
 .ring .ph,.ring .pl{position:absolute;inset:6px;border-radius:50%;display:grid;place-items:center;align-content:center;gap:6px}
 .ring .ph em{font-style:normal;font-size:13px;color:var(--mute)}
@@ -330,11 +333,9 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
     </div>
     <div class="circles">
       <figure class="vc">
-        <button class="ring" type="button" aria-label="Dr. Ali V. otzivini ijro etish">
-          <video data-src="" playsinline preload="metadata" poster=""></video>
-          <span class="ph"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><em>Otziv 1</em></span>
-          <span class="pl"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
-        </button>
+        <div class="ring embed">
+          <iframe src="https://kinescope.io/embed/tDmW8p3ozuyESu1R64hZ9t" title="Dr. Ali V. otzivi" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        </div>
         <figcaption><b>Dr. Ali V.</b><small>LOR-ordinator, Toshkent</small></figcaption>
       </figure>
       <figure class="vc">
@@ -471,7 +472,7 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
 
 // Doira video otzivlar (Telegram "kruzhok" uslubi)
 (function(){
-  var rings=[].slice.call(document.querySelectorAll('.ring'));
+  var rings=[].slice.call(document.querySelectorAll('button.ring'));
   rings.forEach(function(r){
     var v=r.querySelector('video'),src=v.getAttribute('data-src');
     if(!src)return;
