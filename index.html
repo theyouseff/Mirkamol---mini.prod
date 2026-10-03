@@ -110,9 +110,16 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .res-extra{max-width:640px;margin:40px auto 0;text-align:center;padding:16px 22px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--mute);font-size:15px}
 .res-extra b{color:var(--gold)}
 /* reviews */
-.circles{display:flex;justify-content:center;flex-wrap:wrap;gap:40px 36px;margin:44px auto 0;max-width:780px}
-.vc{margin:0;text-align:center;width:210px}
-.ring{--p:0;position:relative;display:block;width:210px;height:210px;border:0;padding:6px;border-radius:50%;cursor:pointer;color:var(--gold);background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0);box-shadow:0 0 0 1px rgba(45,212,191,.25),0 0 34px rgba(45,212,191,.2);transition:transform .25s,box-shadow .25s}
+.rev{overflow-x:clip}
+.gal{position:relative;margin-top:44px}
+.circles{display:flex;gap:36px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:24px max(20px,calc(50vw - 520px)) 12px;margin:0 calc(50% - 50vw);overscroll-behavior-x:contain}
+.circles::-webkit-scrollbar{display:none}
+.gnav{position:absolute;top:calc(50% - 40px);z-index:5;width:52px;height:52px;border-radius:50%;border:1px solid rgba(45,212,191,.5);background:rgba(7,22,28,.85);backdrop-filter:blur(6px);color:var(--gold);font-size:24px;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 22px rgba(45,212,191,.25);transition:transform .2s,background .2s}
+.gnav:hover{transform:scale(1.08);background:rgba(16,43,54,.95)}
+.gnav.prev{left:max(8px,calc(50% - 50vw + 12px))}.gnav.next{right:max(8px,calc(50% - 50vw + 12px))}
+.gcount{text-align:center;margin-top:10px;color:var(--mute);font-size:14px}
+.vc{margin:0;text-align:center;flex:0 0 auto;width:340px;scroll-snap-align:center}
+.ring{--p:0;position:relative;display:block;width:340px;height:340px;border:0;padding:6px;border-radius:50%;cursor:pointer;color:var(--gold);background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0);box-shadow:0 0 0 1px rgba(45,212,191,.25),0 0 34px rgba(45,212,191,.2);transition:transform .25s,box-shadow .25s}
 .ring:hover{transform:scale(1.03);box-shadow:0 0 0 1px rgba(45,212,191,.5),0 0 44px rgba(45,212,191,.35)}
 .ring.embed{cursor:default}
 .ring.embed:hover{transform:none}
@@ -124,6 +131,8 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .ring.has .ph{display:none}
 .ring.has:not(.on) .pl{opacity:1}
 .ring.on .pl{display:none}
+.shield{display:none}
+@media(pointer:coarse){.ring.embed:not(.act) .shield{display:block;position:absolute;inset:6px;border-radius:50%;z-index:2}}
 .vc figcaption{margin-top:18px}
 .vc figcaption b{display:block;font-size:17px}
 .vc figcaption small{color:var(--mute);font-size:14px}
@@ -178,7 +187,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 
 footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
 
-@media(max-width:520px){.circles{gap:28px 20px}.vc,.ring{width:150px}.ring{height:150px}.steps{grid-template-columns:1fr}.st{border-left:0!important;padding-left:0!important}}
+@media(max-width:520px){.vc,.ring{width:260px}.ring{height:260px}.circles{gap:22px}.gnav{display:none}.steps{grid-template-columns:1fr}.st{border-left:0!important;padding-left:0!important}}
 @media(max-width:800px){
   section{padding:52px 0}
   .hero .grid,.about,.guar{grid-template-columns:1fr}
@@ -331,55 +340,68 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
       <span class="neon">Otzivlar</span>
       <h2>O'quvchilar <span class="grad">fikri</span></h2>
     </div>
+    <div class="gal">
+    <button class="gnav prev" type="button" aria-label="Oldingi otziv">‹</button>
+    <button class="gnav next" type="button" aria-label="Keyingi otziv">›</button>
     <div class="circles">
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/tDmW8p3ozuyESu1R64hZ9t" title="Dr. Ali V. otzivi" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. Ali V.</b><small>LOR-ordinator, Toshkent</small></figcaption>
       </figure>
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/3AgR7u1eDWWk28NzE4JUjW" title="Dr. Madina K. otzivi" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. Madina K.</b><small>LOR-shifokor, Samarqand</small></figcaption>
       </figure>
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/rfNJ5QJ7d3TNcPJn3QsgZZ" title="Dr. Jasur R. otzivi" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. Jasur R.</b><small>LOR-shifokor, Andijon</small></figcaption>
       </figure>
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/vLutniNUZc54VLVPtSnTNn" title="Dr. Sardor T. otzivi" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. Sardor T.</b><small>LOR-shifokor, Buxoro</small></figcaption>
       </figure>
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/5LtJu1C7XpbC6QQ86vSmad" title="5-otziv" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. [Ism Familiya]</b><small>LOR-shifokor</small></figcaption>
       </figure>
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/b3Q4ZwkNpeVraMPtnz9S1W" title="6-otziv" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. [Ism Familiya]</b><small>LOR-shifokor</small></figcaption>
       </figure>
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/sH6Ddei8zmYpJYYTmXgh7j" title="7-otziv" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. [Ism Familiya]</b><small>LOR-shifokor</small></figcaption>
       </figure>
       <figure class="vc">
         <div class="ring embed">
           <iframe src="https://kinescope.io/embed/2UBbS1P8L4J9akqmCBUE2z" title="8-otziv" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" allowfullscreen loading="lazy" frameborder="0"></iframe>
+        <span class="shield"></span>
         </div>
         <figcaption><b>Dr. [Ism Familiya]</b><small>LOR-shifokor</small></figcaption>
       </figure>
+    </div>
+    <div class="gcount">← Suring: yana otzivlar bor →</div>
     </div>
   </div>
 </section>
@@ -508,6 +530,23 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
     r.addEventListener('click',function(){
       if(v.paused){rings.forEach(function(o){var ov=o.querySelector('video');if(ov!==v&&!ov.paused){ov.pause();o.classList.remove('on')}});v.play();r.classList.add('on')}
       else{v.pause();r.classList.remove('on')}
+    });
+  });
+})();
+
+// Otzivlar galereyasi: strelkalar va sensorli qurilmada "bosib faollashtirish"
+(function(){
+  var sc=document.querySelector('.circles');if(!sc)return;
+  var step=function(){var v=sc.querySelector('.vc');return v?v.getBoundingClientRect().width+36:360};
+  var p=document.querySelector('.gnav.prev'),n=document.querySelector('.gnav.next');
+  if(p)p.addEventListener('click',function(){sc.scrollBy({left:-step(),behavior:'smooth'})});
+  if(n)n.addEventListener('click',function(){sc.scrollBy({left:step(),behavior:'smooth'})});
+  var embeds=[].slice.call(sc.querySelectorAll('.ring.embed'));
+  embeds.forEach(function(r){
+    var sh=r.querySelector('.shield');if(!sh)return;
+    sh.addEventListener('click',function(){
+      embeds.forEach(function(o){if(o!==r&&o.classList.contains('act')){o.classList.remove('act');var f=o.querySelector('iframe');f.src=f.src}});
+      r.classList.add('act');
     });
   });
 })();
