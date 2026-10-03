@@ -40,17 +40,17 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 
 /* hero */
 .hero{padding:80px 0 72px;background:radial-gradient(900px 400px at 80% -10%,rgba(45,212,191,.15),transparent),radial-gradient(700px 400px at 0% 0%,rgba(56,189,248,.16),transparent)}
-.hero .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
 .hero{overflow:hidden;padding-bottom:0}
-.hero .grid>div:first-child{padding-bottom:72px;position:relative;z-index:2}
-.hero .doc{z-index:1}
-@media(min-width:801px){.hero .doc img{max-width:none;width:130%;margin-left:-45%}.hero .doc figcaption{left:62%}}
+.hero .grid{display:grid;grid-template-columns:1.15fr .85fr;grid-template-areas:"txt doc" "extra .";column-gap:40px}
+.hero .txt{grid-area:txt}
+.hero .extra{grid-area:extra;padding-bottom:72px}
+.doc{grid-area:doc;position:relative;margin:0;min-height:0}
+.doc::before{content:"";position:absolute;left:50%;bottom:0;width:100%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.32),rgba(56,189,248,.1) 55%,transparent 70%)}
+.doc img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:100%;width:auto;max-width:none;-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent);filter:drop-shadow(0 20px 40px rgba(0,0,0,.45))}
+.doc figcaption{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);background:rgba(16,43,54,.9);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:14px;padding:10px 18px;white-space:nowrap}
 .hero p.lead{font-size:20px;color:var(--mute);margin:20px 0 0;max-width:560px}
 .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .badge{font-size:14px;padding:7px 14px;border:1px solid var(--line);border-radius:99px;color:var(--mute);background:var(--card)}
-.doc{position:relative;margin:0;align-self:end;text-align:center}
-.doc::before{content:"";position:absolute;left:50%;bottom:6%;width:92%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.35),rgba(56,189,248,.12) 55%,transparent 70%)}
-.doc img{position:relative;width:100%;max-width:440px;height:auto;margin:0 auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,.45))}
 .doc figcaption{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);background:rgba(16,43,54,.9);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:14px;padding:10px 18px;white-space:nowrap}
 .doc figcaption b{display:block;font-size:16px}
 .doc figcaption span{font-size:13px;color:var(--mute)}
@@ -140,8 +140,9 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
 @media(max-width:800px){
   section{padding:52px 0}
   .hero .grid,.about,.guar{grid-template-columns:1fr}
-  .hero .grid>div:first-child{padding-bottom:0}
-  .doc{margin-top:28px}
+  .hero .grid{grid-template-columns:1fr;grid-template-areas:"txt" "extra" "doc"}
+  .hero .extra{padding-bottom:36px}
+  .doc{height:420px}
   .about .photo{max-width:260px}
   .guar{text-align:center}.seal{margin:0 auto}
   .timer div{min-width:66px;padding:12px}
@@ -161,10 +162,12 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
 <!-- 1. HERO + OFFER -->
 <section class="hero">
   <div class="wrap grid">
-    <div>
+    <div class="txt">
       <span class="eyebrow">LOR shifokorlar uchun mini-kurs</span>
       <h1>FESS ni <span class="grad">xavfsiz</span> bajaring: anatomiya, texnika va asoratlarsiz jarrohlik</h1>
       <p class="lead">Burun va burun yondosh bo'shliqlarida endoskopik operatsiyani ishonch bilan o'tkazish uchun bosqichma-bosqich amaliy kurs. Operatsiya videolari, KT-tahlil va asoratlar profilaktikasi bitta tizimda.</p>
+    </div>
+    <div class="extra">
       <div class="badges">
         <span class="badge">✔ Faqat LOR shifokorlar uchun</span>
         <span class="badge">✔ Real operatsiya videolari</span>
