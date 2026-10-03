@@ -42,7 +42,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .hero{padding:80px 0 72px;background:radial-gradient(900px 400px at 80% -10%,rgba(45,212,191,.15),transparent),radial-gradient(700px 400px at 0% 0%,rgba(56,189,248,.16),transparent)}
 .hero .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
 .hero{overflow:hidden;padding-bottom:0}
-.hero .grid>div:first-child{padding-bottom:72px}
+.hero .grid>div:first-child{padding-bottom:72px;position:relative;z-index:2}
+.hero .doc{z-index:1}
+@media(min-width:801px){.hero .doc img{max-width:none;width:130%;margin-left:-45%}.hero .doc figcaption{left:62%}}
 .hero p.lead{font-size:20px;color:var(--mute);margin:20px 0 0;max-width:560px}
 .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .badge{font-size:14px;padding:7px 14px;border:1px solid var(--line);border-radius:99px;color:var(--mute);background:var(--card)}
