@@ -36,7 +36,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 /* topbar */
 .top{position:sticky;top:0;z-index:20;background:rgba(11,16,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
-.logo{font-weight:800}
+.logo{font-weight:800;color:inherit;text-decoration:none;cursor:pointer}
 .top a.mini{font-size:14px;padding:9px 16px;border-radius:10px;background:var(--gold);color:#03201c;font-weight:700;text-decoration:none}
 
 /* hero */
@@ -215,13 +215,13 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
 
 <header class="top">
   <div class="wrap">
-    <div class="logo">🩺 Dr. <span class="grad">Mirkamol</span></div>
+    <a class="logo" href="#top" aria-label="Bosh sahifaga qaytish">🩺 Dr. <span class="grad">Mirkamol</span></a>
     <a class="mini" href="#narx">Kursga yozilish</a>
   </div>
 </header>
 
 <!-- 1. HERO + OFFER -->
-<section class="hero">
+<section class="hero" id="top">
   <div class="wrap grid">
     <div class="txt">
       <span class="eyebrow">LOR shifokorlar uchun mini-kurs</span>
