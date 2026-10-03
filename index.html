@@ -252,10 +252,6 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .mo-ph{display:flex;align-items:center;gap:10px;padding:0 16px}
 .mo-ph em{font-style:normal;color:var(--text);white-space:nowrap}
 .mo-ph input{height:auto;border:0;background:transparent;padding:0;box-shadow:none!important;flex:1;min-width:0}
-.mo-s4{margin:6px 0 10px;color:var(--text);font-size:15px}
-.mo-file{display:inline-block;cursor:pointer;margin-bottom:6px}
-.mo-file input{position:absolute;opacity:0;width:0;height:0}
-.mo-file span{display:inline-block;max-width:100%;padding:11px 22px;border-radius:99px;background:linear-gradient(90deg,#0f8fb3,#17b5a6);color:#fff;font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:top}
 .mo-err{min-height:20px;margin:6px 0 4px;color:#ff7b7b;font-size:14px}
 .mo-go{width:100%;height:56px;border:0;border-radius:16px;background:linear-gradient(90deg,#17b5a6,#3a9bff);color:#03201c;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 8px 26px rgba(45,212,191,.3);transition:transform .15s,box-shadow .15s}
 .mo-go:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(45,212,191,.5)}
@@ -568,8 +564,6 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
       <form class="mo-form" id="mo-form" novalidate>
         <label class="mo-f"><span>Ismingiz</span><input name="name" type="text" placeholder="Ismingizni kiriting" autocomplete="name" required></label>
         <label class="mo-f"><span>Telefon raqamingiz</span><div class="mo-ph"><em>🇺🇿 +998</em><input name="phone" type="tel" inputmode="numeric" placeholder="00-000-0000" autocomplete="tel-national" required></div></label>
-        <p class="mo-s4">4) To'lov chekini pastdagi tugmani bosib yuklang:</p>
-        <label class="mo-file"><input type="file" name="receipt" accept="image/*,.pdf"><span id="mo-fn">Chekni yuklash</span></label>
         <p class="mo-err" id="mo-err" role="alert"></p>
         <button class="mo-go" type="submit"><span id="mo-go">Kursni olish</span></button>
       </form>
@@ -677,7 +671,7 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
   var mo=document.getElementById('mo');if(!mo)return;
   [].forEach.call(mo.querySelectorAll('[data-cfg]'),function(e){e.textContent=CFG[e.getAttribute('data-cfg')]});
   var form=document.getElementById('mo-form'),ok=document.getElementById('mo-ok'),grid=mo.querySelector('.mo-grid'),
-      tEl=document.getElementById('mo-t'),err=document.getElementById('mo-err'),fn=document.getElementById('mo-fn'),
+      tEl=document.getElementById('mo-t'),err=document.getElementById('mo-err'),
       go=document.getElementById('mo-go'),copy=document.getElementById('mo-copy'),timer,left,last;
   function fmt(n){return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
   function open(e){
@@ -709,14 +703,11 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
     var d=ph.value.replace(/\D/g,'').slice(0,9),o=d.slice(0,2);
     if(d.length>2)o+='-'+d.slice(2,5);if(d.length>5)o+='-'+d.slice(5);ph.value=o;
   });
-  var file=form.querySelector('input[type=file]');
-  file.addEventListener('change',function(){fn.textContent=file.files[0]?file.files[0].name:'Chekni yuklash'});
   form.addEventListener('submit',function(e){
     e.preventDefault();err.textContent='';
     var name=form.name.value.trim(),digits=ph.value.replace(/\D/g,'');
     if(name.length<2){err.textContent='Ismingizni kiriting';return}
     if(digits.length!==9){err.textContent="Telefon raqamni to'liq kiriting";return}
-    if(!file.files[0]){err.textContent='To\'lov chekini yuklang';return}
     function success(msg){form.hidden=true;mo.querySelector('.mo-left').hidden=true;document.getElementById('mo-ok-p').textContent=msg;ok.hidden=false}
     if(CFG.endpoint){
       go.textContent='Yuborilmoqda...';form.querySelector('.mo-go').disabled=true;
