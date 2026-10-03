@@ -256,6 +256,8 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .mo-go{width:100%;height:56px;border:0;border-radius:16px;background:linear-gradient(90deg,#17b5a6,#3a9bff);color:#03201c;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 8px 26px rgba(45,212,191,.3);transition:transform .15s,box-shadow .15s}
 .mo-go:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(45,212,191,.5)}
 .mo-go:disabled{opacity:.6;cursor:wait;transform:none}
+.mo-note{margin:14px 2px 0;font-size:14px;line-height:1.6;color:var(--mute);text-align:center}
+.mo-note b{color:var(--gold);font-weight:700;white-space:nowrap}
 .mo-ok{grid-column:1/-1;text-align:center;padding:44px 22px}
 .mo-ok-ic{width:70px;height:70px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;font-size:34px;color:var(--green);border:2px solid var(--green);box-shadow:0 0 24px rgba(61,220,151,.4)}
 .mo-ok p{color:var(--mute);margin:8px auto 24px;max-width:480px}
@@ -566,6 +568,7 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
         <label class="mo-f"><span>Telefon raqamingiz</span><div class="mo-ph"><em>🇺🇿 +998</em><input name="phone" type="tel" inputmode="numeric" placeholder="00-000-0000" autocomplete="tel-national" required></div></label>
         <p class="mo-err" id="mo-err" role="alert"></p>
         <button class="mo-go" type="submit"><span id="mo-go">Telegramdan chekni yuborish</span></button>
+        <p class="mo-note">Telegramdan chek yuborganingizdan keyin o'zingizning ishlaydigan Gmail pochtangizni yuboring. Kursga dostup olish uchun. Misol: <b>example@gmail.com</b></p>
       </form>
       <div class="mo-ok" id="mo-ok" hidden>
         <div class="mo-ok-ic">✓</div>
