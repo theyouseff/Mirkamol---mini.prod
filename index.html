@@ -41,9 +41,17 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 /* hero */
 .hero{padding:80px 0 72px;background:radial-gradient(900px 400px at 80% -10%,rgba(45,212,191,.15),transparent),radial-gradient(700px 400px at 0% 0%,rgba(56,189,248,.16),transparent)}
 .hero .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.hero{overflow:hidden;padding-bottom:0}
+.hero .grid>div:first-child{padding-bottom:72px}
 .hero p.lead{font-size:20px;color:var(--mute);margin:20px 0 0;max-width:560px}
 .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .badge{font-size:14px;padding:7px 14px;border:1px solid var(--line);border-radius:99px;color:var(--mute);background:var(--card)}
+.doc{position:relative;margin:0;align-self:end;text-align:center}
+.doc::before{content:"";position:absolute;left:50%;bottom:6%;width:92%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.35),rgba(56,189,248,.12) 55%,transparent 70%)}
+.doc img{position:relative;width:100%;max-width:440px;height:auto;margin:0 auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,.45))}
+.doc figcaption{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);background:rgba(16,43,54,.9);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:14px;padding:10px 18px;white-space:nowrap}
+.doc figcaption b{display:block;font-size:16px}
+.doc figcaption span{font-size:13px;color:var(--mute)}
 .offer{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
 .offer .old{color:var(--mute);text-decoration:line-through}
 .offer .now{font-size:44px;font-weight:800;color:var(--gold)}
@@ -130,6 +138,8 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
 @media(max-width:800px){
   section{padding:52px 0}
   .hero .grid,.about,.guar{grid-template-columns:1fr}
+  .hero .grid>div:first-child{padding-bottom:0}
+  .doc{margin-top:28px}
   .about .photo{max-width:260px}
   .guar{text-align:center}.seal{margin:0 auto}
   .timer div{min-width:66px;padding:12px}
@@ -160,18 +170,10 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
       </div>
       <div class="cta-row"><a class="btn" href="#narx">Kursga chegirma bilan yozilish →<small>Joylar soni cheklangan</small></a></div>
     </div>
-    <aside class="offer">
-      <div class="old">Oddiy narx: 497 000 so'm</div>
-      <div class="now">197 000 so'm</div>
-      <ul>
-        <li>FESS bosqichlari bo'yicha video darslar</li>
-        <li>KT-tahlil va pre-op checklist</li>
-        <li>Asoratlar profilaktikasi protokoli</li>
-        <li>Yopiq chat: klinik holatlar muhokamasi</li>
-        <li>7 kunlik pulni qaytarish kafolati</li>
-      </ul>
-      <a class="btn" style="width:100%" href="#narx">Hoziroq boshlash</a>
-    </aside>
+    <figure class="doc">
+      <img src="img/doctor.webp" alt="Dr. [Ism Familiya], LOR-jarroh" width="1145" height="1374" fetchpriority="high">
+      <figcaption><b>Dr. [Ism Familiya]</b><span>LOR-jarroh · kurs muallifi</span></figcaption>
+    </figure>
   </div>
 </section>
 
