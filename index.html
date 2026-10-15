@@ -135,25 +135,6 @@ h3{font-size:19px;font-weight:700;margin-bottom:6px}
 .st p{color:var(--mute);font-size:15px}
 .res-extra{max-width:640px;margin:40px auto 0;text-align:center;padding:16px 22px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--mute);font-size:15px}
 .res-extra b{color:var(--gold)}
-/* taqqoslash */
-.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
-.cc{position:relative;display:flex;flex-direction:column;min-height:430px;padding:26px 26px 24px;border-radius:30px;background:linear-gradient(165deg,#0d2230,#08141b);border:1.5px solid rgba(67,200,240,.45);box-shadow:0 0 0 1px rgba(67,200,240,.1),0 0 34px rgba(67,200,240,.2),inset 0 0 40px rgba(67,200,240,.06);transition:transform .25s,box-shadow .25s,border-color .25s;overflow:hidden}
-.cc::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(67,200,240,.22),transparent 70%);pointer-events:none}
-.cc:hover{transform:translateY(-4px);border-color:rgba(67,227,216,.8);box-shadow:0 0 0 1px rgba(67,200,240,.25),0 0 50px rgba(67,200,240,.38),inset 0 0 46px rgba(67,200,240,.1)}
-.cc-h{position:relative;display:flex;align-items:center;gap:14px}
-.cc-ic{flex:0 0 auto;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;font-size:26px;border:1.5px solid rgba(90,205,240,.6);background:radial-gradient(circle at 35% 30%,rgba(67,227,216,.28),rgba(74,168,255,.08));box-shadow:0 0 18px rgba(67,200,240,.35)}
-.cc-h h3{margin:0;font-size:clamp(26px,3vw,34px);font-weight:800;line-height:1.1}
-.cc-pill{padding:11px 20px;border-radius:99px;background:rgba(67,200,240,.2);border:1px solid rgba(90,205,240,.4);font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#cfeff8}
-.cc-art{position:relative;flex:1;display:grid;place-items:center;margin-top:14px}
-.cc-art .art{width:min(100%,280px);height:auto;filter:drop-shadow(0 18px 26px rgba(0,0,0,.45))}
-.cc-t{position:relative;margin:26px 0 18px;font-size:clamp(28px,3vw,36px);line-height:1.15}
-.cc-l{position:relative;list-style:none;display:grid;gap:14px;margin:0 0 20px}
-.cc-l li{display:flex;gap:14px;align-items:flex-start;color:#dbe7ee;font-size:16px;line-height:1.45}
-.cc-l i{font-style:normal;flex:0 0 auto;width:26px;text-align:center}
-.cc-f{position:relative;margin:auto 0 0;padding-top:18px;border-top:1px solid rgba(90,205,240,.25);color:#dbe7ee;font-size:16px;line-height:1.55}
-.cc-f b{color:#5fd6ee}
-.cc.hl{border-color:rgba(67,227,216,.75);box-shadow:0 0 0 1px rgba(67,227,216,.25),0 0 46px rgba(67,200,240,.38),inset 0 0 50px rgba(67,200,240,.1)}
-@media(max-width:900px){.cmp{grid-template-columns:1fr}.cc{min-height:0}.cc-art{min-height:220px}}
 /* reviews */
 .rev{overflow-x:clip}
 .gal{position:relative;margin-top:44px}
@@ -463,62 +444,6 @@ footer{padding:28px 0 96px;text-align:center;color:var(--mute);font-size:14px;bo
       <div class="row"><span>💬 Yopiq chat: klinik holatlar muhokamasi</span><span>37 000 so'm</span></div>
       <div class="row"><span>🎁 Bonus: [bonus nomi, masalan asboblar tanlash bo'yicha qo'llanma]</span><span>—</span></div>
       <div class="row jami"><span>Jami</span><span>498 000 so'm</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- 7b. TAQQOSLASH -->
-<section>
-  <div class="wrap">
-    <h2 class="center">Bu pulga <span class="grad">nimalar qilish mumkin?</span></h2>
-    <div class="cmp">
-      <article class="cc">
-        <header class="cc-h"><span class="cc-ic">🎟️</span><h3>Kinoga chipta</h3></header>
-        <div class="cc-art"><svg class="art" viewBox="0 0 300 220" aria-hidden="true">
-  <defs>
-    <linearGradient id="tk1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb74a"/><stop offset="1" stop-color="#ff6a3d"/></linearGradient>
-    <linearGradient id="tk2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5de2d6"/><stop offset="1" stop-color="#3a8dff"/></linearGradient>
-    <mask id="tkm"><rect width="240" height="120" rx="14" fill="#fff"/><circle cx="0" cy="60" r="14" fill="#000"/><circle cx="240" cy="60" r="14" fill="#000"/></mask>
-  </defs>
-  <g transform="translate(40 86) rotate(-14 120 60)" opacity=".95"><g mask="url(#tkm)"><rect width="240" height="120" rx="14" fill="url(#tk2)"/><path d="M168 6v108" stroke="rgba(3,32,28,.35)" stroke-width="2.5" stroke-dasharray="6 6"/></g></g>
-  <g transform="translate(34 40) rotate(7 120 60)"><g mask="url(#tkm)"><rect width="240" height="120" rx="14" fill="url(#tk1)"/><rect x="10" y="10" width="220" height="100" rx="9" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2"/><path d="M168 6v108" stroke="rgba(255,255,255,.7)" stroke-width="2.5" stroke-dasharray="6 6"/></g>
-    <path d="M70 34l8.8 17.9 19.7 2.9-14.3 13.9 3.4 19.6L70 79l-17.6 9.3 3.4-19.6L41.5 54.8l19.7-2.9z" fill="#fff" opacity=".95"/>
-    <text x="196" y="68" font-size="22" font-weight="800" fill="#fff" text-anchor="middle" font-family="Inter,system-ui,sans-serif" letter-spacing="1">KINO</text>
-  </g>
-</svg></div>
-      </article>
-      <article class="cc">
-        <header class="cc-h"><span class="cc-ic">🍗</span><h3>Ovqatlanish</h3></header>
-        <div class="cc-art"><svg class="art" viewBox="0 0 300 260" aria-hidden="true">
-  <defs>
-    <radialGradient id="ck" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffd27a"/><stop offset=".6" stop-color="#e8962c"/><stop offset="1" stop-color="#b86a14"/></radialGradient>
-    <clipPath id="bk"><path d="M62 98h176l-18 148a12 12 0 0 1-12 10H92a12 12 0 0 1-12-10z"/></clipPath>
-  </defs>
-  <g>
-    <circle cx="96" cy="86" r="30" fill="url(#ck)"/><circle cx="144" cy="70" r="34" fill="url(#ck)"/><circle cx="196" cy="84" r="31" fill="url(#ck)"/>
-    <circle cx="120" cy="100" r="28" fill="url(#ck)"/><circle cx="170" cy="102" r="27" fill="url(#ck)"/>
-    <ellipse cx="136" cy="56" rx="12" ry="6" fill="rgba(255,255,255,.35)"/><ellipse cx="88" cy="74" rx="9" ry="5" fill="rgba(255,255,255,.3)"/>
-  </g>
-  <g clip-path="url(#bk)">
-    <rect x="50" y="90" width="200" height="180" fill="#f4f7fb"/>
-    <g fill="#12a9b8"><rect x="62" y="90" width="22" height="180"/><rect x="106" y="90" width="22" height="180"/><rect x="150" y="90" width="22" height="180"/><rect x="194" y="90" width="22" height="180"/></g>
-    <rect x="50" y="90" width="200" height="180" fill="url(#bs)" opacity="0"/>
-  </g>
-  <path d="M62 98h176" stroke="#dfe6ef" stroke-width="8" stroke-linecap="round"/>
-  <g transform="rotate(-6 150 170)"><rect x="96" y="148" width="108" height="42" rx="9" fill="#06323d"/><text x="150" y="176" font-size="19" font-weight="800" fill="#fff" text-anchor="middle" font-family="Inter,system-ui,sans-serif" letter-spacing="1.5">CHICKEN</text></g>
-  <ellipse cx="150" cy="252" rx="86" ry="7" fill="rgba(0,0,0,.35)"/>
-</svg></div>
-      </article>
-      <article class="cc hl">
-        <header class="cc-h"><span class="cc-ic">🎓</span><span class="cc-pill">Bizning dars</span></header>
-        <h3 class="cc-t">Bilim va <span class="grad">ko'nikma berish</span></h3>
-        <ul class="cc-l">
-          <li><i>🧠</i>Amaliy bilim va real ko'nikmalar</li>
-          <li><i>📈</i>Kasbiy rivojlanish imkoniyati</li>
-          <li><i>⭐</i>Kelajakda yuqori daromad va erkinlik uchun asos</li>
-        </ul>
-        <p class="cc-f">Bu dars sizga faqat hozir emas, <b>kelajakda ham foyda beradi.</b></p>
-      </article>
     </div>
   </div>
 </section>
