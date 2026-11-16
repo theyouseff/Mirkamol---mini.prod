@@ -105,8 +105,16 @@ p+p{margin-top:16px}
 
 /* reviews: 2 qatorli doira videolar */
 .rev{overflow-x:clip}
-.circles{--s:180px;display:grid;grid-template-rows:repeat(2,auto);grid-auto-flow:column;grid-auto-columns:var(--s);gap:26px 22px;justify-content:center;margin-top:40px;padding:6px 0 10px}
-.vc{margin:0;width:var(--s)}
+.gal{position:relative;margin-top:40px}
+.circles{--s:180px;display:grid;grid-template-rows:repeat(2,auto);grid-auto-flow:column;grid-auto-columns:var(--s);gap:26px 22px;justify-content:safe center;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain;padding:6px 20px 10px}
+.circles::-webkit-scrollbar{display:none}
+.vc{margin:0;width:var(--s);scroll-snap-align:start}
+.ring video{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;background:#000}
+.nav{position:absolute;top:50%;z-index:3;width:48px;height:48px;margin-top:-24px;border-radius:50%;border:1.5px solid rgba(45,212,191,.6);background:rgba(7,22,28,.9);color:var(--gold);font-size:22px;line-height:1;cursor:pointer;box-shadow:0 0 22px rgba(45,212,191,.3);transition:opacity .2s,transform .2s}
+.nav:hover{transform:scale(1.08)}
+.nav.prev{left:-30px}.nav.next{right:-30px}
+.nav[disabled]{opacity:0;pointer-events:none}
+@media(max-width:1120px){.nav.prev{left:0}.nav.next{right:0}}
 .ring{--p:0;position:relative;display:block;width:var(--s);height:var(--s);padding:5px;border-radius:50%;background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0);box-shadow:0 0 0 1px rgba(45,212,191,.25),0 0 28px rgba(45,212,191,.2)}
 .ring .kp,.ring .kp iframe,.ring iframe{display:block;width:100%;height:100%;border:0;border-radius:50%;overflow:hidden;background:#000}
 .shield{position:absolute;inset:5px;border-radius:50%;z-index:2;cursor:pointer;touch-action:pan-x pan-y}
@@ -247,9 +255,9 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
   .btn{display:flex;width:100%;max-width:100%}
   .dark{padding:32px 20px}
   .guar{text-align:center;gap:28px}
-  .circles{--s:140px;justify-content:start;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:30px -20px 0;padding:6px 20px 10px;gap:18px 16px}
-  .circles::-webkit-scrollbar{display:none}
-  .vc{scroll-snap-align:start}
+  .gal{margin:30px -20px 0}
+  .circles{--s:140px;gap:18px 16px}
+  .nav{display:none}
 }
 @media(max-width:520px){
   .chips{gap:8px}
@@ -353,7 +361,7 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
   <div class="wrap center">
     <span class="neon">Sharhlar</span>
     <h2>Dasturimda o'qigan <span class="grad">hamkasblarim fikrlari</span></h2>
-    <div class="circles" data-videos></div>
+    <div class="gal"><button class="nav prev" type="button" aria-label="Oldingi">&#8249;</button><div class="circles" data-videos></div><button class="nav next" type="button" aria-label="Keyingi">&#8250;</button></div>
   </div>
 </section>
 
@@ -636,7 +644,7 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
   <div class="wrap center">
     <span class="neon">Sharhlar</span>
     <h2>Hamkasblarim <span class="grad">nima deydi?</span></h2>
-    <div class="circles" data-videos></div>
+    <div class="gal"><button class="nav prev" type="button" aria-label="Oldingi">&#8249;</button><div class="circles" data-videos></div><button class="nav next" type="button" aria-label="Keyingi">&#8250;</button></div>
     <div class="cta-row"><a class="btn" href="#tarif"><span class="b-ic"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><i class="b-line"></i><span class="b-tx"><b>Men ham yozilaman</b><small>Bor-yo'g'i 50 ta joy</small></span></a></div>
   </div>
 </section>
@@ -694,7 +702,11 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
 <script>
 // === SOZLAMALAR ===
 var TELEGRAM='mirkamol_menejer';   // tarif tugmalari shu Telegramga olib boradi
-var VIDEOS=[                        // Kinescope video-sharhlar (ikkala sharhlar bo'limida chiqadi)
+var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida chiqadi)
+  // video/ papkasidagi dumaloq videolar
+  'video/v1.mp4','video/v2.mp4','video/v3.mp4','video/v4.mp4','video/v5.mp4','video/v6.mp4',
+  'video/v7.mp4','video/v8.mp4','video/v9.mp4','video/v10.mp4','video/v11.mp4',
+  // Kinescope videolar (ID)
   'dgNbTb2EfUgeAtgNMee12n','2TLfJW3uGGcU2RogDJcpF1','qfQKvrNSEzueTaLCAGHpQj',
   'fwf6NUVte6T4HiMKLN3eoB','8e4mVyqhCfJ3SfCQBozENp','wv5UP2YchTohnQsM13dmeY',
   'tQ7PT96D2N1s6RtQjGoCCU','9SeZvxbqX6JtYjHTUdaB2Y','oipjP24XjNMsP9DNHWgZSr'
@@ -721,7 +733,7 @@ var VIDEOS=[                        // Kinescope video-sharhlar (ikkala sharhlar
   tick();setInterval(tick,1000);
 })();
 
-// Video-sharhlar: 2 qatorli doiralar, Kinescope pleyer bo'lim ko'rinishiga yaqinlashganda yuklanadi
+// Video-sharhlar: 2 qatorli doiralar. Mahalliy .mp4 va Kinescope videolar bo'lim ko'rinishiga yaqinlashganda yuklanadi
 (function(){
   var all=[],api=null,queue=[];
   function loadApi(cb){
@@ -730,26 +742,35 @@ var VIDEOS=[                        // Kinescope video-sharhlar (ikkala sharhlar
     s.onload=function(){api=window.Kinescope.IframePlayer;queue.forEach(function(f){f()})};
     document.head.appendChild(s);
   }
+  function pauseOthers(r){all.forEach(function(o){if(o!==r&&o.p){try{o.p.pause()}catch(e){}}})}
   [].forEach.call(document.querySelectorAll('[data-videos]'),function(sc,si){
-    var rings=VIDEOS.map(function(id,i){
-      var fig=document.createElement('figure');fig.className='vc';
-      fig.innerHTML='<div class="ring"><div class="kp" id="kp'+si+'_'+i+'"></div><span class="shield" role="button" aria-label="Sharhni ko\'rish"></span></div>';
+    var rings=VIDEOS.map(function(src,i){
+      var local=/\.mp4$/i.test(src),fig=document.createElement('figure');fig.className='vc';
+      fig.innerHTML='<div class="ring">'+(local?'<video playsinline preload="none"></video>':'<div class="kp" id="kp'+si+'_'+i+'"></div>')+'<span class="shield" role="button" aria-label="Sharhni ko\'rish"></span></div>';
       sc.appendChild(fig);
-      var r={el:fig.firstChild,id:id,box:'kp'+si+'_'+i,p:null};all.push(r);return r;
+      var r={el:fig.firstChild,src:src,local:local,box:'kp'+si+'_'+i,p:null};all.push(r);return r;
     });
-    function init(){
-      loadApi(function(){
-        rings.forEach(function(r){
-          api.create(r.box,{url:'https://kinescope.io/'+r.id,size:{width:'100%',height:'100%'},behaviour:{preload:true,autoPlay:false}}).then(function(p){
-            r.p=p;var E=p.Events;
-            function on(v){r.el.classList.toggle('playing',v)}
-            p.on(E.Play,function(){on(true)});p.on(E.Playing,function(){on(true)});
-            p.on(E.Pause,function(){on(false)});
-            p.on(E.Ended,function(){on(false);r.el.style.setProperty('--p',0);try{p.seekTo(0);p.pause()}catch(e){}});
-            p.on(E.TimeUpdate,function(e){var d=e&&e.data;if(d&&d.duration)r.el.style.setProperty('--p',d.currentTime/d.duration*100)});
-          });
-        });
+    function on(r,v){r.el.classList.toggle('playing',v)}
+    function prog(r,t,d){if(d)r.el.style.setProperty('--p',t/d*100)}
+    function initLocal(r){
+      var v=r.el.querySelector('video');v.preload='metadata';v.src=r.src+'#t=0.1';r.p=v;
+      v.addEventListener('play',function(){on(r,true)});
+      v.addEventListener('pause',function(){on(r,false)});
+      v.addEventListener('timeupdate',function(){prog(r,v.currentTime,v.duration)});
+      v.addEventListener('ended',function(){on(r,false);r.el.style.setProperty('--p',0);v.currentTime=0});
+    }
+    function initKp(r){
+      api.create(r.box,{url:'https://kinescope.io/'+r.src,size:{width:'100%',height:'100%'},behaviour:{preload:true,autoPlay:false}}).then(function(p){
+        r.p=p;var E=p.Events;
+        p.on(E.Play,function(){on(r,true)});p.on(E.Playing,function(){on(r,true)});
+        p.on(E.Pause,function(){on(r,false)});
+        p.on(E.Ended,function(){on(r,false);r.el.style.setProperty('--p',0);try{p.seekTo(0);p.pause()}catch(e){}});
+        p.on(E.TimeUpdate,function(e){var d=e&&e.data;if(d)prog(r,d.currentTime,d.duration)});
       });
+    }
+    function init(){
+      rings.forEach(function(r){if(r.local)initLocal(r)});
+      if(rings.some(function(r){return !r.local}))loadApi(function(){rings.forEach(function(r){if(!r.local)initKp(r)})});
     }
     if('IntersectionObserver' in window){
       var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){io.disconnect();init()}},{rootMargin:'600px 0px'});io.observe(sc);
@@ -758,10 +779,16 @@ var VIDEOS=[                        // Kinescope video-sharhlar (ikkala sharhlar
       r.el.querySelector('.shield').addEventListener('click',function(){
         if(!r.p)return;
         if(r.el.classList.contains('playing')){try{r.p.pause()}catch(e){}return}
-        all.forEach(function(o){if(o!==r&&o.p){try{o.p.pause()}catch(e){}}});
-        try{r.p.play()}catch(e){}
+        pauseOthers(r);
+        try{var x=r.p.play();if(x&&x.catch)x.catch(function(){})}catch(e){}
       });
     });
+    // Kompyuterda o'q tugmalari bilan aylantirish
+    var gal=sc.parentNode,prev=gal.querySelector('.prev'),next=gal.querySelector('.next');
+    function upd(){prev.disabled=sc.scrollLeft<5;next.disabled=sc.scrollLeft+sc.clientWidth>=sc.scrollWidth-5}
+    function step(d){sc.scrollBy({left:d*Math.max(200,sc.clientWidth*0.8)})}
+    prev.addEventListener('click',function(){step(-1)});next.addEventListener('click',function(){step(1)});
+    sc.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
   });
 })();
 </script>
