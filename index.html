@@ -121,6 +121,31 @@ p+p{margin-top:16px}
 .ring:not(.playing) .shield::after{content:"";position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:#0b2530 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%232dd4bf'/%3E%3C/svg%3E") center/30px no-repeat;border:1.5px solid rgba(45,212,191,.7);box-shadow:0 0 22px rgba(45,212,191,.35);transition:transform .2s}
 .ring:not(.playing):hover .shield::after{transform:scale(1.08)}
 
+
+/* vertikal video-sharhlar */
+.vhead{display:flex;justify-content:flex-end;gap:10px;margin-top:34px}
+.rbtn{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--line);background:var(--card2);color:var(--text);font-size:20px;cursor:pointer;transition:border-color .2s,color .2s,opacity .2s}
+.rbtn:hover{border-color:var(--gold);color:var(--gold)}
+.rbtn[disabled]{opacity:.35;pointer-events:none}
+.vids{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;margin:18px calc(50% - 50vw) 0;padding:0 max(20px,calc(50vw - 500px)) 6px;scroll-padding:0 max(20px,calc(50vw - 500px))}
+.vids::-webkit-scrollbar{display:none}
+.vcard{position:relative;flex:0 0 auto;width:min(300px,72vw);aspect-ratio:9/15;border-radius:24px;overflow:hidden;background:#000;scroll-snap-align:start;text-align:left;box-shadow:0 18px 40px rgba(0,0,0,.4);border:1px solid var(--line)}
+.vcard video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vcard .cv{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:16px;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,transparent 25%,transparent 55%,rgba(4,14,18,.92) 100%);transition:opacity .25s}
+.vcard .snd{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:99px;background:rgba(20,30,36,.7);backdrop-filter:blur(8px);color:#fff;font-size:13.5px;font-weight:600}
+.vcard .snd svg{width:15px;height:15px}
+.vcard .pb{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);color:var(--bg);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .2s}
+.vcard .pb svg{width:26px;height:26px;margin-left:3px}
+.vcard:hover .pb{transform:scale(1.07)}
+.vcard .mt b{display:block;font-size:17px;line-height:1.3;color:#fff}
+.vcard .mt span{display:block;margin-top:4px;font-size:13px;color:var(--mute)}
+.vcard .hit{position:absolute;inset:0;z-index:2;border:0;background:transparent;cursor:pointer}
+.vcard.on .pb,.vcard.on .snd{opacity:0}
+.vcard.on .cv{background:linear-gradient(180deg,transparent 60%,rgba(4,14,18,.85) 100%)}
+.vcard .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--gold);z-index:1}
+.rev .circles-h{margin-top:46px;font-size:18px;color:var(--mute);font-weight:600}
+@media(max-width:800px){.vhead{display:none}.vids{gap:14px}}
+
 /* modules (accordion) */
 .mods{display:grid;gap:10px;margin-top:36px}
 .mod{background:var(--card2);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .2s}
@@ -361,6 +386,9 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
   <div class="wrap center">
     <span class="neon">Sharhlar</span>
     <h2>Dasturimda o'qigan <span class="grad">hamkasblarim fikrlari</span></h2>
+    <div class="vhead"><button class="rbtn" type="button" data-dir="-1" aria-label="Oldingi">←</button><button class="rbtn" type="button" data-dir="1" aria-label="Keyingi">→</button></div>
+    <div class="vids" id="vids"></div>
+    <p class="circles-h">Yana hamkasblarimdan qisqa fikrlar 👇</p>
     <div class="gal"><button class="nav prev" type="button" aria-label="Oldingi">&#8249;</button><div class="circles" data-videos></div><button class="nav next" type="button" aria-label="Keyingi">&#8250;</button></div>
   </div>
 </section>
@@ -702,6 +730,13 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
 <script>
 // === SOZLAMALAR ===
 var TELEGRAM='mirkamol_menejer';   // tarif tugmalari shu Telegramga olib boradi
+var VREV=[                          // 4-bo'limdagi vertikal video-sharhlar: [fayl, sarlavha, izoh]
+  ['video/vh1.MP4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/vh2.MP4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/vh3.MP4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/vh4.MOV',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/vh5.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"]
+];
 var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida chiqadi)
   // video/ papkasidagi dumaloq videolar
   'video/v1.mp4','video/v2.mp4','video/v3.mp4','video/v4.mp4','video/v5.mp4','video/v6.mp4',
@@ -731,6 +766,49 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
     el.textContent=p(Math.floor(s/3600))+':'+p(Math.floor(s%3600/60))+':'+p(s%60);
   }
   tick();setInterval(tick,1000);
+})();
+
+// Vertikal video-sharhlar: ko'rinib turganda ovozsiz aylanadi, bosilsa boshidan ovoz bilan
+(function(){
+  var box=document.getElementById('vids');if(!box)return;
+  var snd='<svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var cards=VREV.map(function(v){
+    var a=document.createElement('article');a.className='vcard';
+    a.innerHTML='<video playsinline muted loop preload="none"></video><div class="cv"><span class="snd">'+snd+"Ovoz bilan ko'rish</span><div class=\"mt\"><b></b><span></span></div></div><span class=\"pb\"><svg viewBox=\"0 0 24 24\"><path d=\"M8 5v14l11-7z\" fill=\"currentColor\"/></svg></span><i class=\"bar\"></i><button class=\"hit\" type=\"button\"></button>";
+    a.querySelector('.mt b').textContent=v[1];a.querySelector('.mt span').textContent=v[2];
+    a.querySelector('.hit').setAttribute('aria-label',"Videoni ko'rish: "+v[1]);
+    var vid=a.querySelector('video');box.appendChild(a);
+    return {el:a,v:vid,src:v[0],loaded:false};
+  });
+  function load(c){if(!c.loaded){c.loaded=true;c.v.preload='metadata';c.v.src=c.src+'#t=0.1'}}
+  function preview(c){if(c.el.classList.contains('on'))return;load(c);c.v.muted=true;c.v.loop=true;var x=c.v.play();if(x&&x.catch)x.catch(function(){})}
+  function stop(c){c.el.classList.remove('on');c.v.muted=true;c.v.loop=true}
+  cards.forEach(function(c){
+    c.v.addEventListener('timeupdate',function(){if(c.el.classList.contains('on')&&c.v.duration)c.el.querySelector('.bar').style.width=(c.v.currentTime/c.v.duration*100)+'%'});
+    c.v.addEventListener('ended',function(){stop(c);c.el.querySelector('.bar').style.width=0;c.v.currentTime=0;c.v.play().catch(function(){})});
+    c.el.querySelector('.hit').addEventListener('click',function(){
+      load(c);
+      if(c.el.classList.contains('on')){
+        if(c.v.paused){c.v.play().catch(function(){})}else{c.v.pause()}
+        return;
+      }
+      cards.forEach(function(o){if(o!==c&&o.el.classList.contains('on')){stop(o);o.el.querySelector('.bar').style.width=0}});
+      // boshqa sharh videolarini ham to'xtatamiz
+      document.querySelectorAll('.ring video').forEach(function(x){x.pause()});
+      c.el.classList.add('on');c.v.loop=false;c.v.muted=false;c.v.currentTime=0;c.v.play().catch(function(){});
+    });
+  });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      var c=cards.filter(function(x){return x.el===e.target})[0];
+      if(e.isIntersecting)preview(c);else if(!c.el.classList.contains('on'))c.v.pause();else c.v.pause();
+    })},{threshold:.5});
+    cards.forEach(function(c){io.observe(c.el)});
+  }else cards.forEach(load);
+  var nav=document.querySelectorAll('.vhead .rbtn');
+  function upd(){nav[0].disabled=box.scrollLeft<5;nav[1].disabled=box.scrollLeft+box.clientWidth>=box.scrollWidth-5}
+  [].forEach.call(nav,function(b){b.addEventListener('click',function(){box.scrollBy({left:+b.getAttribute('data-dir')*(cards[0].el.offsetWidth+20)})})});
+  box.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
 })();
 
 // Video-sharhlar: 2 qatorli doiralar. Mahalliy .mp4 va Kinescope videolar bo'lim ko'rinishiga yaqinlashganda yuklanadi
