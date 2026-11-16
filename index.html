@@ -106,7 +106,7 @@ p+p{margin-top:16px}
 /* reviews: 2 qatorli doira videolar */
 .rev{overflow-x:clip}
 .gal{position:relative;margin:40px calc(50% - 50vw) 0}
-.circles{--s:clamp(210px,calc((min(100vw,1440px) - 120px) / 6),240px);display:flex;align-items:center;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain;padding:14px max(20px,calc(50vw - 700px)) 18px;scroll-padding:0 max(20px,calc(50vw - 700px))}
+.circles{--s:clamp(210px,calc((min(100vw,1440px) - 120px) / 6),240px);display:grid;grid-template-rows:repeat(2,auto);grid-auto-flow:column;grid-auto-columns:auto;align-items:center;justify-items:center;gap:22px 18px;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain;padding:14px max(20px,calc(50vw - 700px)) 18px;scroll-padding:0 max(20px,calc(50vw - 700px))}
 .circles::-webkit-scrollbar{display:none}
 .vc{margin:0;flex:0 0 auto;width:var(--s);scroll-snap-align:start;transition:width .7s cubic-bezier(.65,0,.35,1)}
 .vc.big{width:calc(var(--s) * 1.8)}
@@ -284,7 +284,7 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
   .dark{padding:32px 20px}
   .guar{text-align:center;gap:28px}
   .gal{margin-top:30px}
-  .circles{--s:210px;gap:16px}
+  .circles{--s:180px;gap:16px}
   .vc.big{width:min(310px,calc(100vw - 40px))}
   .nav{display:none}
 }
