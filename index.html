@@ -106,7 +106,7 @@ p+p{margin-top:16px}
 /* reviews: 2 qatorli doira videolar */
 .rev{overflow-x:clip}
 .gal{position:relative;margin:40px calc(50% - 50vw) 0}
-.circles{--s:clamp(210px,calc((min(100vw,1440px) - 120px) / 6),240px);display:grid;grid-template-rows:repeat(2,auto);grid-auto-flow:column;grid-auto-columns:auto;align-items:center;justify-items:center;gap:22px 18px;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain;padding:14px max(20px,calc(50vw - 700px)) 18px;scroll-padding:0 max(20px,calc(50vw - 700px))}
+.circles{--s:clamp(210px,calc((min(100vw,1440px) - 120px) / 6),240px);display:flex;align-items:center;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain;padding:14px max(20px,calc(50vw - 700px)) 18px;scroll-padding:0 max(20px,calc(50vw - 700px))}
 .circles::-webkit-scrollbar{display:none}
 .vc{margin:0;flex:0 0 auto;width:var(--s);scroll-snap-align:start;transition:width .7s cubic-bezier(.65,0,.35,1)}
 .vc.big{width:calc(var(--s) * 1.8)}
@@ -146,6 +146,17 @@ p+p{margin-top:16px}
 .vcard .hit{position:absolute;inset:0;z-index:2;border:0;background:transparent;cursor:pointer}
 .vcard.on .cv,.vcard.on .pb,.vcard.on .bar,.vcard.on .hit{display:none}
 .vcard .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--gold);z-index:1}
+.more{margin:34px auto 6px;text-align:center}
+.more h3{font-size:clamp(28px,4.4vw,44px);font-weight:800;letter-spacing:-.02em;margin-bottom:22px}
+.more h3 em{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;color:var(--gold)}
+.more-btn{display:inline-flex;align-items:center;justify-content:center;gap:14px;width:min(560px,100%);padding:20px 28px;border:0;border-radius:99px;cursor:pointer;font:inherit;font-size:clamp(16px,2.2vw,19px);font-weight:700;color:#03201c;background:linear-gradient(110deg,#43e3d8,#3a9bff);box-shadow:0 16px 40px rgba(58,155,255,.28),0 0 30px rgba(45,212,191,.2);transition:transform .2s,box-shadow .2s}
+.more-btn:hover{transform:translateY(-2px);box-shadow:0 20px 50px rgba(58,155,255,.4),0 0 40px rgba(45,212,191,.3)}
+.more-btn .cnt{padding:4px 12px;border-radius:99px;background:rgba(3,32,28,.14);font-size:.9em}
+.more-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}
+.more.open .more-btn svg{transform:rotate(180deg)}
+.gal.row2{display:none;margin-top:22px}
+.gal.row2.show{display:block;animation:rowIn .5s ease}
+@keyframes rowIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
 .rev .circles-h{margin-top:46px;font-size:18px;color:var(--mute);font-weight:600}
 @media(max-width:800px){.vhead{display:none}.vids{gap:14px}}
 
@@ -284,7 +295,7 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
   .dark{padding:32px 20px}
   .guar{text-align:center;gap:28px}
   .gal{margin-top:30px}
-  .circles{--s:180px;gap:16px}
+  .circles{--s:200px;gap:16px}
   .vc.big{width:min(310px,calc(100vw - 40px))}
   .nav{display:none}
 }
@@ -812,7 +823,7 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
   box.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
 })();
 
-// Video-sharhlar: 2 qatorli doiralar. Mahalliy .mp4 va Kinescope videolar bo'lim ko'rinishiga yaqinlashganda yuklanadi
+// Video-sharhlar: doiralar (1-qator + yashirin 2-qator). Mahalliy .mp4 va Kinescope videolar bo'lim ko'rinishiga yaqinlashganda yuklanadi
 (function(){
   var all=[],api=null,queue=[];
   function loadApi(cb){
@@ -822,8 +833,26 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
     document.head.appendChild(s);
   }
   function pauseOthers(r){all.forEach(function(o){if(o!==r&&o.p){try{o.p.pause()}catch(e){}}})}
-  [].forEach.call(document.querySelectorAll('[data-videos]'),function(sc,si){
-    var rings=VIDEOS.map(function(src,i){
+  var half=Math.ceil(VIDEOS.length/2);
+  var chev='<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+  // Har bo'limda: 1-qator ko'rinadi, 2-qator "Barcha sharhlarni ko'rsatish" tugmasi bosilganda ochiladi
+  [].forEach.call(document.querySelectorAll('[data-videos]'),function(sc0,si){
+    var gal1=sc0.parentNode,gal2=gal1.cloneNode(true);gal2.classList.add('row2');
+    var more=document.createElement('div');more.className='more';
+    more.innerHTML="<h3>Yana <em>isbot</em> kerakmi?</h3><button class=\"more-btn\" type=\"button\" aria-expanded=\"false\">Barcha sharhlarni ko'rsatish <span class=\"cnt\">+"+(VIDEOS.length-half)+"</span>"+chev+"</button>";
+    gal1.after(more);more.after(gal2);
+    var btn=more.querySelector('.more-btn');
+    btn.addEventListener('click',function(){
+      var open=!gal2.classList.contains('show');
+      gal2.classList.toggle('show',open);more.classList.toggle('open',open);btn.setAttribute('aria-expanded',open);
+      btn.firstChild.nodeValue=open?"Sharhlarni yashirish ":"Barcha sharhlarni ko'rsatish ";
+      if(open){gal2.dispatchEvent(new Event('reveal'));setTimeout(function(){gal2.scrollIntoView({behavior:'smooth',block:'nearest'})},80)}
+    });
+    setup(sc0,VIDEOS.slice(0,half),si+'a');
+    setup(gal2.querySelector('[data-videos]'),VIDEOS.slice(half),si+'b');
+  });
+  function setup(sc,list,si){
+    var rings=list.map(function(src,i){
       var local=/\.mp4$/i.test(src),fig=document.createElement('figure');fig.className='vc';
       fig.innerHTML='<div class="ring">'+(local?'<video playsinline preload="none" poster="'+src.replace(/\.mp4$/,'.jpg')+'"></video>':'<div class="kp" id="kp'+si+'_'+i+'"></div>')+'<span class="shield" role="button" aria-label="Sharhni ko\'rish"></span></div>';
       sc.appendChild(fig);
@@ -848,6 +877,7 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
       });
     }
     function init(){
+      if(init.done)return;init.done=true;
       rings.forEach(function(r){if(r.local)initLocal(r)});
       if(rings.some(function(r){return !r.local}))loadApi(function(){rings.forEach(function(r){if(!r.local)initKp(r)})});
     }
@@ -868,7 +898,8 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
     function step(d){sc.scrollBy({left:d*Math.max(200,sc.clientWidth*0.8)})}
     prev.addEventListener('click',function(){step(-1)});next.addEventListener('click',function(){step(1)});
     sc.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
-  });
+    gal.addEventListener('reveal',function(){init();setTimeout(upd,50)});
+  }
 })();
 </script>
 </body>
