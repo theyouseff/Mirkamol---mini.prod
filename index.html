@@ -735,16 +735,16 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
 // === SOZLAMALAR ===
 var TELEGRAM='mirkamol_menejer';   // tarif tugmalari shu Telegramga olib boradi
 var VREV=[                          // 4-bo'limdagi vertikal video-sharhlar: [fayl, sarlavha, izoh]
-  ['video/vh1.MP4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/vh2.MP4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/vh3.MP4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/vh4.MOV',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/vh5.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"]
+  ['video/web/vh1.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/web/vh2.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/web/vh3.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/web/vh4.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['video/web/vh5.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"]
 ];
 var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida chiqadi)
   // video/ papkasidagi dumaloq videolar
-  'video/v1.mp4','video/v2.mp4','video/v3.mp4','video/v4.mp4','video/v5.mp4','video/v6.mp4',
-  'video/v7.mp4','video/v8.mp4','video/v9.mp4','video/v10.mp4','video/v11.mp4',
+  'video/web/v1.mp4','video/web/v2.mp4','video/web/v3.mp4','video/web/v4.mp4','video/web/v5.mp4','video/web/v6.mp4',
+  'video/web/v7.mp4','video/web/v8.mp4','video/web/v9.mp4','video/web/v10.mp4','video/web/v11.mp4',
   // Kinescope videolar (ID)
   'dgNbTb2EfUgeAtgNMee12n','2TLfJW3uGGcU2RogDJcpF1','qfQKvrNSEzueTaLCAGHpQj',
   'fwf6NUVte6T4HiMKLN3eoB','8e4mVyqhCfJ3SfCQBozENp','wv5UP2YchTohnQsM13dmeY',
@@ -781,10 +781,10 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
     a.innerHTML='<video playsinline muted loop preload="none"></video><div class="cv"><span class="snd">'+snd+"Ovoz bilan ko'rish</span><div class=\"mt\"><b></b><span></span></div></div><span class=\"pb\"><svg viewBox=\"0 0 24 24\"><path d=\"M8 5v14l11-7z\" fill=\"currentColor\"/></svg></span><i class=\"bar\"></i><button class=\"hit\" type=\"button\"></button>";
     a.querySelector('.mt b').textContent=v[1];a.querySelector('.mt span').textContent=v[2];
     a.querySelector('.hit').setAttribute('aria-label',"Videoni ko'rish: "+v[1]);
-    var vid=a.querySelector('video');box.appendChild(a);
+    var vid=a.querySelector('video');vid.poster=v[0].replace(/\.mp4$/,'.jpg');box.appendChild(a);
     return {el:a,v:vid,src:v[0],loaded:false};
   });
-  function load(c){if(!c.loaded){c.loaded=true;c.v.preload='metadata';c.v.src=c.src+'#t=0.1'}}
+  function load(c){if(!c.loaded){c.loaded=true;c.v.src=c.src}}
   function preview(c){if(c.el.classList.contains('on'))return;load(c);c.v.muted=true;c.v.loop=true;var x=c.v.play();if(x&&x.catch)x.catch(function(){})}
   function stop(c){c.el.classList.remove('on');c.v.controls=false;c.v.pause();c.v.muted=true;c.v.loop=true}
   cards.forEach(function(c){
@@ -825,14 +825,14 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
   [].forEach.call(document.querySelectorAll('[data-videos]'),function(sc,si){
     var rings=VIDEOS.map(function(src,i){
       var local=/\.mp4$/i.test(src),fig=document.createElement('figure');fig.className='vc';
-      fig.innerHTML='<div class="ring">'+(local?'<video playsinline preload="none"></video>':'<div class="kp" id="kp'+si+'_'+i+'"></div>')+'<span class="shield" role="button" aria-label="Sharhni ko\'rish"></span></div>';
+      fig.innerHTML='<div class="ring">'+(local?'<video playsinline preload="none" poster="'+src.replace(/\.mp4$/,'.jpg')+'"></video>':'<div class="kp" id="kp'+si+'_'+i+'"></div>')+'<span class="shield" role="button" aria-label="Sharhni ko\'rish"></span></div>';
       sc.appendChild(fig);
       var r={el:fig.firstChild,src:src,local:local,box:'kp'+si+'_'+i,p:null};all.push(r);return r;
     });
     function on(r,v){r.el.classList.toggle('playing',v);r.el.parentNode.classList.toggle('big',v);if(v)setTimeout(function(){r.el.parentNode.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})},750)}
     function prog(r,t,d){if(d)r.el.style.setProperty('--p',t/d*100)}
     function initLocal(r){
-      var v=r.el.querySelector('video');v.preload='metadata';v.src=r.src+'#t=0.1';r.p=v;
+      var v=r.el.querySelector('video');v.preload='none';v.poster=r.src.replace(/\.mp4$/,'.jpg');v.src=r.src;r.p=v;
       v.addEventListener('play',function(){on(r,true)});
       v.addEventListener('pause',function(){on(r,false)});
       v.addEventListener('timeupdate',function(){prog(r,v.currentTime,v.duration)});
