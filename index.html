@@ -404,7 +404,7 @@ footer{padding:28px 0 110px;text-align:center;color:var(--mute);font-size:14px;b
     <div class="vhead"><button class="rbtn" type="button" data-dir="-1" aria-label="Oldingi">←</button><button class="rbtn" type="button" data-dir="1" aria-label="Keyingi">→</button></div>
     <div class="vids" id="vids"></div>
     <p class="circles-h">Yana hamkasblarimdan qisqa fikrlar 👇</p>
-    <div class="gal"><button class="nav prev" type="button" aria-label="Oldingi">&#8249;</button><div class="circles" data-videos></div><button class="nav next" type="button" aria-label="Keyingi">&#8250;</button></div>
+    <div class="gal"><button class="nav prev" type="button" aria-label="Oldingi">&#8249;</button><div class="circles" data-videos data-more></div><button class="nav next" type="button" aria-label="Keyingi">&#8250;</button></div>
   </div>
 </section>
 
@@ -840,6 +840,11 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
     var gal1=sc0.parentNode,gal2=gal1.cloneNode(true);gal2.classList.add('row2');
     var more=document.createElement('div');more.className='more';
     more.innerHTML="<h3>Yana <em>isbot</em> kerakmi?</h3><button class=\"more-btn\" type=\"button\" aria-expanded=\"false\">Barcha sharhlarni ko'rsatish <span class=\"cnt\">+"+(VIDEOS.length-half)+"</span>"+chev+"</button>";
+    if(!sc0.hasAttribute('data-more')){            // 12-bo'lim: tugmasiz, ikkala qator ochiq
+      gal1.after(gal2);gal2.classList.add('show');
+      setup(sc0,VIDEOS.slice(0,half),si+'a');setup(gal2.querySelector('[data-videos]'),VIDEOS.slice(half),si+'b');
+      return;
+    }
     gal1.after(more);more.after(gal2);
     var btn=more.querySelector('.more-btn');
     btn.addEventListener('click',function(){
