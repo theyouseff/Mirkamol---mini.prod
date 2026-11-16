@@ -140,8 +140,7 @@ p+p{margin-top:16px}
 .vcard .mt b{display:block;font-size:17px;line-height:1.3;color:#fff}
 .vcard .mt span{display:block;margin-top:4px;font-size:13px;color:var(--mute)}
 .vcard .hit{position:absolute;inset:0;z-index:2;border:0;background:transparent;cursor:pointer}
-.vcard.on .pb,.vcard.on .snd{opacity:0}
-.vcard.on .cv{background:linear-gradient(180deg,transparent 60%,rgba(4,14,18,.85) 100%)}
+.vcard.on .cv,.vcard.on .pb,.vcard.on .bar,.vcard.on .hit{display:none}
 .vcard .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--gold);z-index:1}
 .rev .circles-h{margin-top:46px;font-size:18px;color:var(--mute);font-weight:600}
 @media(max-width:800px){.vhead{display:none}.vids{gap:14px}}
@@ -782,20 +781,17 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
   });
   function load(c){if(!c.loaded){c.loaded=true;c.v.preload='metadata';c.v.src=c.src+'#t=0.1'}}
   function preview(c){if(c.el.classList.contains('on'))return;load(c);c.v.muted=true;c.v.loop=true;var x=c.v.play();if(x&&x.catch)x.catch(function(){})}
-  function stop(c){c.el.classList.remove('on');c.v.muted=true;c.v.loop=true}
+  function stop(c){c.el.classList.remove('on');c.v.controls=false;c.v.pause();c.v.muted=true;c.v.loop=true}
   cards.forEach(function(c){
     c.v.addEventListener('timeupdate',function(){if(c.el.classList.contains('on')&&c.v.duration)c.el.querySelector('.bar').style.width=(c.v.currentTime/c.v.duration*100)+'%'});
     c.v.addEventListener('ended',function(){stop(c);c.el.querySelector('.bar').style.width=0;c.v.currentTime=0;c.v.play().catch(function(){})});
+    c.v.addEventListener('play',function(){if(c.el.classList.contains('on')){cards.forEach(function(o){if(o!==c&&o.el.classList.contains('on'))stop(o)});document.querySelectorAll('.ring video').forEach(function(x){x.pause()})}});
     c.el.querySelector('.hit').addEventListener('click',function(){
       load(c);
-      if(c.el.classList.contains('on')){
-        if(c.v.paused){c.v.play().catch(function(){})}else{c.v.pause()}
-        return;
-      }
       cards.forEach(function(o){if(o!==c&&o.el.classList.contains('on')){stop(o);o.el.querySelector('.bar').style.width=0}});
       // boshqa sharh videolarini ham to'xtatamiz
       document.querySelectorAll('.ring video').forEach(function(x){x.pause()});
-      c.el.classList.add('on');c.v.loop=false;c.v.muted=false;c.v.currentTime=0;c.v.play().catch(function(){});
+      c.el.classList.add('on');c.v.controls=true;c.v.loop=false;c.v.muted=false;c.v.currentTime=0;c.v.play().catch(function(){});
     });
   });
   if('IntersectionObserver' in window){
