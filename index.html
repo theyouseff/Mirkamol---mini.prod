@@ -902,8 +902,7 @@ function kpOnly(p){if(ACTIVE&&ACTIVE!==p){try{ACTIVE.pause()}catch(e){}}ACTIVE=p
         api.create(c.box,{url:'https://kinescope.io/'+c.id,size:{width:'100%',height:'100%'},behaviour:{autoPlay:true,preload:true},ui:{mainPlayButton:false}}).then(function(p){
           c.p=p;kpOnly(p);var E=p.Events;
           p.on(E.Playing,function(){kpOnly(p)});
-          var t0=-1;
-          p.on(E.TimeUpdate,function(e){var d=e&&e.data;if(!d)return;if(t0<0)t0=d.currentTime;else if(d.currentTime-t0>0.6)show()});   // video oldinga ketganda ochiladi
+          p.on(E.Playing,show);p.on(E.TimeUpdate,show);   // ovoz boshlanishi bilan video ochiladi
           p.on(E.Play,function(){kpOnly(p)});
           try{p.play()}catch(e){}
           setTimeout(show,7000);                     // brauzer avto-ijroni to'xtatsa: pleyerning o'zi ko'rsatiladi
@@ -966,9 +965,8 @@ function kpOnly(p){if(ACTIVE&&ACTIVE!==p){try{ACTIVE.pause()}catch(e){}}ACTIVE=p
       api.create(r.box,{url:'https://kinescope.io/'+r.src,size:{width:'100%',height:'100%'},behaviour:{preload:true,autoPlay:!!play},ui:{controls:false,mainPlayButton:false}}).then(function(p){
         r.p=p;var E=p.Events;
         function started(){r.el.classList.remove('loading');r.el.classList.add('started')}
-        var t0=-1;
-        p.on(E.TimeUpdate,function(e){var d=e&&e.data;if(!d||r.el.classList.contains('started'))return;   // video ~0.6s oldinga ketsa poster yashiriladi
-          if(t0<0)t0=d.currentTime;else if(d.currentTime-t0>0.6)started()});
+        p.on(E.Playing,function(){if(!r.el.classList.contains('started'))started()});   // ovoz boshlanishi bilan video ochiladi
+        p.on(E.TimeUpdate,function(){if(!r.el.classList.contains('started'))started()});
         if(play){pauseOthers(r);kpOnly(p);try{p.play()}catch(e){}
           setTimeout(function(){if(!r.el.classList.contains('started')){started();try{p.play()}catch(e){}}},7000)}
         p.on(E.Play,function(){on(r,true);kpOnly(p)});p.on(E.Playing,function(){on(r,true)});
