@@ -166,6 +166,8 @@ p+p{margin-top:16px}
 .vcard .vkp{position:absolute;inset:0;display:none;background:#000}
 .vcard .vkp iframe{position:absolute;inset:0;width:100%!important;height:100%!important;border:0}
 .vcard.on .vkp{display:block;z-index:3}
+.vcard.on .vpost{display:none}
+.vcard .vkp>*{position:absolute!important;inset:0;width:100%!important;height:100%!important;border:0}
 .kpw{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#000}
 .kpw .kpost{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .ring.started .kpost{display:none}
@@ -883,7 +885,7 @@ function kpOnly(p){if(ACTIVE&&ACTIVE!==p){try{ACTIVE.pause()}catch(e){}}ACTIVE=p
   var snd='<svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   var cards=VREV.map(function(v,i){
     var a=document.createElement('article');a.className='vcard';
-    a.innerHTML='<img class="vpost" alt="" loading="lazy"><div class="vkp" id="vkp'+i+'"></div><div class="cv"><span class="snd">'+snd+"Ovoz bilan ko'rish</span><div class=\"mt\"><b></b><span></span></div></div><span class=\"pb\"><svg viewBox=\"0 0 24 24\"><path d=\"M8 5v14l11-7z\" fill=\"currentColor\"/></svg></span><button class=\"hit\" type=\"button\"></button>";
+    a.innerHTML='<img class="vpost" alt="" loading="lazy"><div class="vkp"><div id="vkp'+i+'"></div></div><div class="cv"><span class="snd">'+snd+"Ovoz bilan ko'rish</span><div class=\"mt\"><b></b><span></span></div></div><span class=\"pb\"><svg viewBox=\"0 0 24 24\"><path d=\"M8 5v14l11-7z\" fill=\"currentColor\"/></svg></span><button class=\"hit\" type=\"button\"></button>";
     a.querySelector('.vpost').src=v[1];
     a.querySelector('.mt b').textContent=v[2];a.querySelector('.mt span').textContent=v[3];
     a.querySelector('.hit').setAttribute('aria-label',"Videoni ko'rish: "+v[2]);
