@@ -162,6 +162,13 @@ p+p{margin-top:16px}
 .rev .circles-h{margin-top:46px;font-size:18px;color:var(--mute);font-weight:600}
 @media(max-width:800px){.vhead{display:none}.vids{gap:14px}}
 
+.vcard .vpost{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vcard .vkp{position:absolute;inset:0;display:none;background:#000}
+.vcard .vkp iframe{position:absolute;inset:0;width:100%!important;height:100%!important;border:0}
+.vcard.on .vkp{display:block;z-index:3}
+.kpw{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#000}
+.kpw .kpost{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.ring.ready .kpost{display:none}
 /* modules (accordion) */
 .mods{display:grid;gap:10px;margin-top:36px}
 .mod{background:var(--card2);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .2s}
@@ -818,17 +825,26 @@ footer{border-top:1px solid var(--bd)}
 <script>
 // === SOZLAMALAR ===
 var TELEGRAM='mirkamol_menejer';   // tarif tugmalari shu Telegramga olib boradi
-var VREV=[                          // 4-bo'limdagi vertikal video-sharhlar: [fayl, sarlavha, izoh]
-  ['video/web/vh1.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/web/vh2.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/web/vh3.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/web/vh4.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
-  ['video/web/vh5.mp4',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"]
+var VREV=[                          // 4-bo'limdagi vertikal video-sharhlar: [Kinescope ID, poster, sarlavha, izoh]
+  ['ug2kuptTBngaRs4uumJe6k','video/web/vh1.jpg',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['nXR16mNHRBa6D5KVHXd5KT','video/web/vh2.jpg',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['aDG6Wrqw7KrfBjXeofTUmE','video/web/vh3.jpg',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['9mmL1PgHn6FatC5j7zSsDp','video/web/vh4.jpg',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"],
+  ['ak3b56VqH5yh2W41hzJRFr','video/web/vh5.jpg',"Hamkasbim FESS dasturi haqida","LOR shifokor sharhi"]
 ];
 var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida chiqadi)
-  // video/ papkasidagi dumaloq videolar
-  'video/web/v1.mp4','video/web/v2.mp4','video/web/v3.mp4','video/web/v4.mp4','video/web/v5.mp4','video/web/v6.mp4',
-  'video/web/v7.mp4','video/web/v8.mp4','video/web/v9.mp4','video/web/v10.mp4','video/web/v11.mp4',
+  // dumaloq videolar (Kinescope ID@poster)
+  'jfc6s6VH9ZFojfYKBdK9W1@video/web/v1.jpg',
+  'muEqTyu3rzBqJoQcbhLQWS@video/web/v2.jpg',
+  'abWfy7Fh32RJLC1Vt2jUP1@video/web/v3.jpg',
+  '3hXxgrtWZbGuzcr87HtsvU@video/web/v4.jpg',
+  'niPiqTCBm96ZHf8XJyAyLj@video/web/v5.jpg',
+  '34Hhv4c5F4rZKDEt8DiaiK@video/web/v6.jpg',
+  'uJUsRC7y8rT3z9SYwucwrm@video/web/v7.jpg',
+  'tHkYugvzgu3sq3gn8umJse@video/web/v8.jpg',
+  '9WKCjiNxKiUrxL3aoGYrSo@video/web/v9.jpg',
+  'n72z8L68ntJCAjiHWeRt8A@video/web/v10.jpg',
+  'i1husUs15xspHFTUk6RvTe@video/web/v11.jpg',
   // Kinescope videolar (ID)
   'dgNbTb2EfUgeAtgNMee12n','2TLfJW3uGGcU2RogDJcpF1','qfQKvrNSEzueTaLCAGHpQj',
   'fwf6NUVte6T4HiMKLN3eoB','8e4mVyqhCfJ3SfCQBozENp','wv5UP2YchTohnQsM13dmeY',
@@ -843,40 +859,41 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
 });
 
 
-// Vertikal video-sharhlar: ko'rinib turganda ovozsiz aylanadi, bosilsa boshidan ovoz bilan
+// Kinescope pleyer API (bir marta yuklanadi)
+var KP=(function(){var api=null,q=[];return function(cb){
+  if(api)return cb(api);q.push(cb);if(q.length>1)return;
+  var s=document.createElement('script');s.src='https://player.kinescope.io/latest/iframe.player.js';
+  s.onload=function(){api=window.Kinescope.IframePlayer;q.forEach(function(f){f(api)})};document.head.appendChild(s);
+}})();
+var ACTIVE=null;                     // hozir ijro bo'layotgan pleyer (bittasi)
+function kpOnly(p){if(ACTIVE&&ACTIVE!==p){try{ACTIVE.pause()}catch(e){}}ACTIVE=p}
+
+// Vertikal video-sharhlar: poster turadi, bosilganda Kinescope pleyeri ovoz bilan ochiladi
 (function(){
   var box=document.getElementById('vids');if(!box)return;
   var snd='<svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-  var cards=VREV.map(function(v){
+  var cards=VREV.map(function(v,i){
     var a=document.createElement('article');a.className='vcard';
-    a.innerHTML='<video playsinline muted loop preload="none"></video><div class="cv"><span class="snd">'+snd+"Ovoz bilan ko'rish</span><div class=\"mt\"><b></b><span></span></div></div><span class=\"pb\"><svg viewBox=\"0 0 24 24\"><path d=\"M8 5v14l11-7z\" fill=\"currentColor\"/></svg></span><i class=\"bar\"></i><button class=\"hit\" type=\"button\"></button>";
-    a.querySelector('.mt b').textContent=v[1];a.querySelector('.mt span').textContent=v[2];
-    a.querySelector('.hit').setAttribute('aria-label',"Videoni ko'rish: "+v[1]);
-    var vid=a.querySelector('video');vid.poster=v[0].replace(/\.mp4$/,'.jpg');box.appendChild(a);
-    return {el:a,v:vid,src:v[0],loaded:false};
+    a.innerHTML='<img class="vpost" alt="" loading="lazy"><div class="vkp" id="vkp'+i+'"></div><div class="cv"><span class="snd">'+snd+"Ovoz bilan ko'rish</span><div class=\"mt\"><b></b><span></span></div></div><span class=\"pb\"><svg viewBox=\"0 0 24 24\"><path d=\"M8 5v14l11-7z\" fill=\"currentColor\"/></svg></span><button class=\"hit\" type=\"button\"></button>";
+    a.querySelector('.vpost').src=v[1];
+    a.querySelector('.mt b').textContent=v[2];a.querySelector('.mt span').textContent=v[3];
+    a.querySelector('.hit').setAttribute('aria-label',"Videoni ko'rish: "+v[2]);
+    box.appendChild(a);
+    return {el:a,id:v[0],box:'vkp'+i,p:null};
   });
-  function load(c){if(!c.loaded){c.loaded=true;c.v.src=c.src}}
-  function preview(c){if(c.el.classList.contains('on'))return;load(c);c.v.muted=true;c.v.loop=true;var x=c.v.play();if(x&&x.catch)x.catch(function(){})}
-  function stop(c){c.el.classList.remove('on');c.v.controls=false;c.v.pause();c.v.muted=true;c.v.loop=true}
   cards.forEach(function(c){
-    c.v.addEventListener('timeupdate',function(){if(c.el.classList.contains('on')&&c.v.duration)c.el.querySelector('.bar').style.width=(c.v.currentTime/c.v.duration*100)+'%'});
-    c.v.addEventListener('ended',function(){stop(c);c.el.querySelector('.bar').style.width=0;c.v.currentTime=0;c.v.play().catch(function(){})});
-    c.v.addEventListener('play',function(){if(c.el.classList.contains('on')){cards.forEach(function(o){if(o!==c&&o.el.classList.contains('on'))stop(o)});document.querySelectorAll('.ring video').forEach(function(x){x.pause()})}});
     c.el.querySelector('.hit').addEventListener('click',function(){
-      load(c);
-      cards.forEach(function(o){if(o!==c&&o.el.classList.contains('on')){stop(o);o.el.querySelector('.bar').style.width=0}});
-      // boshqa sharh videolarini ham to'xtatamiz
-      document.querySelectorAll('.ring video').forEach(function(x){x.pause()});
-      c.el.classList.add('on');c.v.controls=true;c.v.loop=false;c.v.muted=false;c.v.currentTime=0;c.v.play().catch(function(){});
+      c.el.classList.add('on');
+      if(c.p){kpOnly(c.p);try{c.p.play()}catch(e){}return}
+      KP(function(api){
+        api.create(c.box,{url:'https://kinescope.io/'+c.id,size:{width:'100%',height:'100%'},behaviour:{autoPlay:true,preload:true}}).then(function(p){
+          c.p=p;kpOnly(p);var E=p.Events;
+          p.on(E.Play,function(){kpOnly(p)});
+          try{p.play()}catch(e){}
+        });
+      });
     });
   });
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){
-      var c=cards.filter(function(x){return x.el===e.target})[0];
-      if(e.isIntersecting)preview(c);else if(!c.el.classList.contains('on'))c.v.pause();else c.v.pause();
-    })},{threshold:.5});
-    cards.forEach(function(c){io.observe(c.el)});
-  }else cards.forEach(load);
   var nav=document.querySelectorAll('.vhead .rbtn');
   function upd(){nav[0].disabled=box.scrollLeft<5;nav[1].disabled=box.scrollLeft+box.clientWidth>=box.scrollWidth-5}
   [].forEach.call(nav,function(b){b.addEventListener('click',function(){box.scrollBy({left:+b.getAttribute('data-dir')*(cards[0].el.offsetWidth+20)})})});
@@ -885,13 +902,8 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
 
 // Video-sharhlar: doiralar (1-qator + yashirin 2-qator). Mahalliy .mp4 va Kinescope videolar bo'lim ko'rinishiga yaqinlashganda yuklanadi
 (function(){
-  var all=[],api=null,queue=[];
-  function loadApi(cb){
-    if(api)return cb();queue.push(cb);if(queue.length>1)return;
-    var s=document.createElement('script');s.src='https://player.kinescope.io/latest/iframe.player.js';
-    s.onload=function(){api=window.Kinescope.IframePlayer;queue.forEach(function(f){f()})};
-    document.head.appendChild(s);
-  }
+  var all=[],api=null;
+  function loadApi(cb){KP(function(a){api=a;cb()})}
   function pauseOthers(r){all.forEach(function(o){if(o!==r&&o.p){try{o.p.pause()}catch(e){}}})}
   var half=Math.ceil(VIDEOS.length/2);
   var chev='<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
@@ -915,11 +927,12 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
     setup(gal2.querySelector('[data-videos]'),VIDEOS.slice(half),si+'b');
   });
   function setup(sc,list,si){
-    var rings=list.map(function(src,i){
+    var rings=list.map(function(item,i){
+      var parts=item.split('@'),src=parts[0],poster=parts[1]||'';
       var local=/\.mp4$/i.test(src),fig=document.createElement('figure');fig.className='vc';
-      fig.innerHTML='<div class="ring">'+(local?'<video playsinline preload="none" poster="'+src.replace(/\.mp4$/,'.jpg')+'"></video>':'<div class="kp" id="kp'+si+'_'+i+'"></div>')+'<span class="shield" role="button" aria-label="Sharhni ko\'rish"></span></div>';
+      fig.innerHTML='<div class="ring">'+(local?'<video playsinline preload="none" poster="'+src.replace(/\.mp4$/,'.jpg')+'"></video>':'<div class="kpw">'+(poster?'<img class="kpost" alt="" loading="lazy" src="'+poster+'">':'')+'<div class="kp" id="kp'+si+'_'+i+'"></div></div>')+'<span class="shield" role="button" aria-label="Sharhni ko\'rish"></span></div>';
       sc.appendChild(fig);
-      var r={el:fig.firstChild,src:src,local:local,box:'kp'+si+'_'+i,p:null};all.push(r);return r;
+      var r={el:fig.firstChild,src:src,local:local,lazy:!!poster,box:'kp'+si+'_'+i,p:null};all.push(r);return r;
     });
     function on(r,v){r.el.classList.toggle('playing',v);r.el.parentNode.classList.toggle('big',v);if(v)setTimeout(function(){r.el.parentNode.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})},750)}
     function prog(r,t,d){if(d)r.el.style.setProperty('--p',t/d*100)}
@@ -930,10 +943,12 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
       v.addEventListener('timeupdate',function(){prog(r,v.currentTime,v.duration)});
       v.addEventListener('ended',function(){on(r,false);r.el.style.setProperty('--p',0);v.currentTime=0});
     }
-    function initKp(r){
-      api.create(r.box,{url:'https://kinescope.io/'+r.src,size:{width:'100%',height:'100%'},behaviour:{preload:true,autoPlay:false}}).then(function(p){
-        r.p=p;var E=p.Events;
-        p.on(E.Play,function(){on(r,true)});p.on(E.Playing,function(){on(r,true)});
+    function initKp(r,play){
+      if(r.creating)return;r.creating=true;
+      api.create(r.box,{url:'https://kinescope.io/'+r.src,size:{width:'100%',height:'100%'},behaviour:{preload:true,autoPlay:!!play}}).then(function(p){
+        r.p=p;var E=p.Events;r.el.classList.add('ready');
+        if(play){pauseOthers(r);kpOnly(p);try{p.play()}catch(e){}}
+        p.on(E.Play,function(){on(r,true);kpOnly(p)});p.on(E.Playing,function(){on(r,true)});
         p.on(E.Pause,function(){on(r,false)});
         p.on(E.Ended,function(){on(r,false);r.el.style.setProperty('--p',0);try{p.seekTo(0);p.pause()}catch(e){}});
         p.on(E.TimeUpdate,function(e){var d=e&&e.data;if(d)prog(r,d.currentTime,d.duration)});
@@ -942,16 +957,16 @@ var VIDEOS=[                        // video-sharhlar (ikkala sharhlar bo'limida
     function init(){
       if(init.done)return;init.done=true;
       rings.forEach(function(r){if(r.local)initLocal(r)});
-      if(rings.some(function(r){return !r.local}))loadApi(function(){rings.forEach(function(r){if(!r.local)initKp(r)})});
+      if(rings.some(function(r){return !r.local&&!r.lazy}))loadApi(function(){rings.forEach(function(r){if(!r.local&&!r.lazy)initKp(r)})});
     }
     if('IntersectionObserver' in window){
       var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){io.disconnect();init()}},{rootMargin:'600px 0px'});io.observe(sc);
     }else init();
     rings.forEach(function(r){
       r.el.querySelector('.shield').addEventListener('click',function(){
-        if(!r.p)return;
+        if(!r.p){if(r.lazy)loadApi(function(){initKp(r,true)});return}
         if(r.el.classList.contains('playing')){try{r.p.pause()}catch(e){}return}
-        pauseOthers(r);
+        pauseOthers(r);if(!r.local)kpOnly(r.p);else if(ACTIVE){try{ACTIVE.pause()}catch(e){}ACTIVE=null}
         try{var x=r.p.play();if(x&&x.catch)x.catch(function(){})}catch(e){}
       });
     });
