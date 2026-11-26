@@ -967,7 +967,7 @@ function kpOnly(p){if(ACTIVE&&ACTIVE!==p){try{ACTIVE.pause()}catch(e){}}ACTIVE=p
         function started(){r.el.classList.remove('loading');r.el.classList.add('started')}
         p.on(E.Playing,function(){if(!r.el.classList.contains('started'))started()});   // ovoz boshlanishi bilan video ochiladi
         p.on(E.TimeUpdate,function(){if(!r.el.classList.contains('started'))started()});
-        if(play){pauseOthers(r);kpOnly(p);try{p.play()}catch(e){}
+        if(play||r.want){r.el.classList.add('loading');pauseOthers(r);kpOnly(p);try{p.play()}catch(e){}
           setTimeout(function(){if(!r.el.classList.contains('started')){started();try{p.play()}catch(e){}}},7000)}
         p.on(E.Play,function(){on(r,true);kpOnly(p)});p.on(E.Playing,function(){on(r,true)});
         p.on(E.Pause,function(){on(r,false)});
@@ -978,15 +978,16 @@ function kpOnly(p){if(ACTIVE&&ACTIVE!==p){try{ACTIVE.pause()}catch(e){}}ACTIVE=p
     function init(){
       if(init.done)return;init.done=true;
       rings.forEach(function(r){if(r.local)initLocal(r)});
-      if(rings.some(function(r){return !r.local&&!r.lazy}))loadApi(function(){rings.forEach(function(r){if(!r.local&&!r.lazy)initKp(r)})});
+      if(rings.some(function(r){return !r.local}))loadApi(function(){rings.forEach(function(r){if(!r.local)initKp(r)})});   // hamma pleyer oldindan tayyorlanadi: bosilganda darhol boshlanadi
     }
     if('IntersectionObserver' in window){
       var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){io.disconnect();init()}},{rootMargin:'600px 0px'});io.observe(sc);
     }else init();
     rings.forEach(function(r){
       r.el.querySelector('.shield').addEventListener('click',function(){
-        if(!r.p){if(r.lazy)loadApi(function(){initKp(r,true)});return}
+        if(!r.p){r.want=true;r.el.classList.add('loading');loadApi(function(){initKp(r,true)});return}
         if(r.el.classList.contains('playing')){try{r.p.pause()}catch(e){}return}
+        if(!r.local&&!r.el.classList.contains('started'))r.el.classList.add('loading');
         pauseOthers(r);if(!r.local)kpOnly(r.p);else if(ACTIVE){try{ACTIVE.pause()}catch(e){}ACTIVE=null}
         try{var x=r.p.play();if(x&&x.catch)x.catch(function(){})}catch(e){}
       });
